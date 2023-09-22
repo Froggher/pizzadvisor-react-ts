@@ -1,3 +1,7 @@
+# Tutorial utili
+https://marketsplash.com/tutorials/typescript/how-to-convert-react-js-to-typescript/
+https://javascript.plainenglish.io/create-a-list-view-in-react-with-typescript-c598be1d0ff5
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
