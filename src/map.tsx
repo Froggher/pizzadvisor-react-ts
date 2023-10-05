@@ -1,7 +1,8 @@
-import { useMemo, useRef, useCallback } from "react";
+import { useMemo, useRef, useCallback, useState } from "react";
 import { GoogleMap, Marker } from "@react-google-maps/api";
 
 import "./home.css";
+import Places from "./places";
 
 /* By using a ref, you ensure that:
 
@@ -14,6 +15,7 @@ type LatLngLiteral = google.maps.LatLngLiteral;
 type MapOption = google.maps.MapOptions;
 
 export default function Map() {
+    const [office, setOffice] = useState<LatLngLiteral>();
     const mapRef = useRef<GoogleMap>();
 
     //Effettua il calcolo di center con dependency array di []
@@ -26,7 +28,7 @@ export default function Map() {
 
     //useCallback é simile alla useMemo peró invece di ritornare un value ritorna una funzione
     const onLoad = useCallback((map: any) => (mapRef.current = map), []);
-    
+
 
 
 
@@ -34,6 +36,10 @@ export default function Map() {
         <div className="container">
             <div className="controls">
                 <h2>Commute</h2>
+                <Places setOffice={(position) => {
+                    setOffice(position);
+                    mapRef.current?.panTo(position);
+                }}></Places>
             </div>
 
 

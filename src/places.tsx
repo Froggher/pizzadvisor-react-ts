@@ -1,5 +1,5 @@
 import usePlacesAutocomplete from "use-places-autocomplete";
-
+import Combobox from "react-widgets/Combobox";
 
 type PlacesProps = {
     setOffice: (position: google.maps.LatLngLiteral) => void;
@@ -14,10 +14,17 @@ export default function Places({ setOffice }: PlacesProps) {
         suggestions: { status, data },//Lo status se viene ricevuto o no qualche dato e infine i dati dei suggerimenti
         clearSuggestions,//Quando viene selezionato uno gli altri vanno via
     } = usePlacesAutocomplete();
-    
+
     return (
         <div>
-            Places
+            <Combobox
+                value={value}
+                onChange={(value) => setValue(value)}
+                className="combobox-input"
+                placeholder="Inserisci indirizzo"
+                disabled={ready}
+                onSelect={() => { }}/>
+            
         </div>
     )
 
