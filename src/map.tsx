@@ -12,20 +12,19 @@ import "./home.css";
 
 type LatLngLiteral = google.maps.LatLngLiteral;
 type MapOption = google.maps.MapOptions;
-export default function Map() {
 
-    
+export default function Map() {
     const mapRef = useRef<GoogleMap>();
 
     //Effettua il calcolo di center con dependency array di []
     const center = useMemo<LatLngLiteral>(() => ({ lat: 44, lng: -80 }), []);
     const options = useMemo<MapOption>(() => ({
+        mapId: "c937efbfd83b24d7",
         disableDefaultUI: true,
         clickIcons: false //non si possono cliccare icone 
     }), []);
 
     //useCallback é simile alla useMemo peró invece di ritornare un value ritorna una funzione
-    
     const onLoad = useCallback((map: any) => (mapRef.current = map), []);
     
 
