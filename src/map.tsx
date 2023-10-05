@@ -1,0 +1,53 @@
+import { useMemo, useRef, useCallback } from "react";
+import { GoogleMap, Marker } from "@react-google-maps/api";
+
+import "./home.css";
+
+/* By using a ref, you ensure that:
+
+    You can store information between re-renders (unlike regular variables, which reset on every render).
+    Changing it does not trigger a re-render (unlike state variables, which trigger a re-render).
+    The information is local to each copy of your component (unlike the variables outside, which are shared).
+*/
+
+type LatLngLiteral = google.maps.LatLngLiteral;
+type MapOption = google.maps.MapOptions;
+export default function Map() {
+
+    
+    const mapRef = useRef<GoogleMap>();
+
+    //Effettua il calcolo di center con dependency array di []
+    const center = useMemo<LatLngLiteral>(() => ({ lat: 44, lng: -80 }), []);
+    const options = useMemo<MapOption>(() => ({
+        disableDefaultUI: true,
+        clickIcons: false //non si possono cliccare icone 
+    }), []);
+
+    //useCallback é simile alla useMemo peró invece di ritornare un value ritorna una funzione
+    
+    const onLoad = useCallback((map: any) => (mapRef.current = map), []);
+    
+
+
+
+    return (
+        <div className="container">
+            <div className="controls">
+                <h2>Commute</h2>
+            </div>
+
+
+            <div className="map">
+                <GoogleMap
+                    zoom={10}
+                    center={center}
+                    mapContainerClassName="map-container"
+                    options={options}
+                    onLoad={onLoad}>
+                    <Marker position={center} />
+                </GoogleMap>
+            </div>
+        </div>
+    );
+}
