@@ -1,4 +1,4 @@
-import usePlacesAutocomplete from "use-places-autocomplete";
+import usePlacesAutocomplete, { getGeocode, getLatLng } from "use-places-autocomplete";
 import Combobox from "react-widgets/Combobox";
 
 type PlacesProps = {
@@ -7,6 +7,8 @@ type PlacesProps = {
 
 
 export default function Places({ setOffice }: PlacesProps) {
+    
+    /* Questi sono i dati suggeriti che vengono presi da usePlacesAutocomplete */
     const {
         ready,//Pronto per essere usato?
         value,//Valore che l'utente immette
@@ -15,16 +17,32 @@ export default function Places({ setOffice }: PlacesProps) {
         clearSuggestions,//Quando viene selezionato uno gli altri vanno via
     } = usePlacesAutocomplete();
 
+    console.log({ status, data })
+    console.log(typeof data)
+
+    /* Restituisce le cordinate dei posti suggeriti */
+    const handleSelect = async (val: string) => {
+        setValue(val, false);
+        clearSuggestions();
+        //Qui prendo i valori che vengono passati quando si seleziona un suggerimento
+        const results = await getGeocode({ address: val });
+        const { lat, lng } = getLatLng(results[0])
+        setOffice({ lat, lng })
+
+    }
+
     return (
+        /* Qui é necessario cambiare la libreria per questo combobox */
         <div>
             <Combobox
                 value={value}
                 onChange={(value) => setValue(value)}
                 className="combobox-input"
                 placeholder="Inserisci indirizzo"
-                disabled={ready}
-                onSelect={() => { }}/>
-            
+                disabled={!ready}
+                data={data.map(e => (e.description))}
+                onSelect={handleSelect} />
+
         </div>
     )
 
