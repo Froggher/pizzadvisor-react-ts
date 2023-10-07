@@ -20,12 +20,13 @@ export default function Places({ setOffice }: PlacesProps) {
     console.log({ status, data })
     console.log(typeof data)
 
-    /* Restituisce le cordinate dei posti suggeriti */
+    /* Restituisce le cordinate dei posti selezionati */
     const handleSelect = async (val: string) => {
         setValue(val, false);
         clearSuggestions();
         //Qui prendo i valori che vengono passati quando si seleziona un suggerimento
         const results = await getGeocode({ address: val });
+        console.log(results[0])
         const { lat, lng } = getLatLng(results[0])
         setOffice({ lat, lng })
 

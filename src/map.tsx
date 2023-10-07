@@ -1,5 +1,5 @@
 import { useMemo, useRef, useCallback, useState } from "react";
-import { GoogleMap, Marker } from "@react-google-maps/api";
+import { Circle, GoogleMap, Marker } from "@react-google-maps/api";
 
 import "./home.css";
 import Places from "./places";
@@ -19,11 +19,12 @@ export default function Map() {
     const mapRef = useRef<GoogleMap>();
 
     //Effettua il calcolo di center con dependency array di []
-    const center = useMemo<LatLngLiteral>(() => ({ lat: 44, lng: -80 }), []);
+    const center = useMemo<LatLngLiteral>(() => ({ lat: 43, lng: 12.3 }), []);
     const options = useMemo<MapOption>(() => ({
         mapId: "c937efbfd83b24d7",
         disableDefaultUI: true,
-        clickIcons: false //non si possono cliccare icone 
+        clickIcons: false, //non si possono cliccare icone
+        //restriction: "it"
     }), []);
 
     //useCallback é simile alla useMemo peró invece di ritornare un value ritorna una funzione
@@ -50,7 +51,12 @@ export default function Map() {
                     mapContainerClassName="map-container"
                     options={options}
                     onLoad={onLoad}>
-                    <Marker position={center} />
+                    {office &&
+                        <>
+                            <Marker position={office} /*icon="https://s3.gsxtr.com/i/p/marker-grog-cutter-15-xfp-29824-480-1.jpg"*/ />
+                            <Circle center={office} radius={7000} />
+                        </>
+                    }
                 </GoogleMap>
             </div>
         </div>

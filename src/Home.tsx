@@ -7,6 +7,7 @@ export default function Home() {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: import.meta.env.VITE_MAPS_API,
     libraries: libraries,
+    //language: "IT",
   });
 
   if (!isLoaded) return <div>Caricamento mappa...</div>;
