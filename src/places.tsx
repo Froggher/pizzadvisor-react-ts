@@ -7,7 +7,7 @@ type PlacesProps = {
 
 
 export default function Places({ setOffice }: PlacesProps) {
-    
+
     /* Questi sono i dati suggeriti che vengono presi da usePlacesAutocomplete */
     const {
         ready,//Pronto per essere usato?
@@ -18,10 +18,11 @@ export default function Places({ setOffice }: PlacesProps) {
     } = usePlacesAutocomplete();
 
     console.log({ status, data })
-    console.log(typeof data)
+    //console.log(typeof data)
 
     /* Restituisce le cordinate dei posti selezionati */
     const handleSelect = async (val: string) => {
+        console.log(value)
         setValue(val, false);
         clearSuggestions();
         //Qui prendo i valori che vengono passati quando si seleziona un suggerimento
@@ -31,19 +32,33 @@ export default function Places({ setOffice }: PlacesProps) {
         setOffice({ lat, lng })
 
     }
-
+    console.log(data.map(e => (e.description)))
     return (
         /* Qui é necessario cambiare la libreria per questo combobox */
         <div>
-            <Combobox
+
+            {/* <Combobox
                 value={value}
                 onChange={(value) => setValue(value)}
                 className="combobox-input"
                 placeholder="Inserisci indirizzo"
                 disabled={!ready}
                 data={data.map(e => (e.description))}
-                onSelect={handleSelect} />
+                onSelect={handleSelect} /> */}
 
+            <input type="text"
+                disabled={!ready}
+                className="combobox-input"
+                placeholder="Inserisci indirizzo"
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+            />
+            <ul>
+                {
+                    data.map(e => (
+                        <li key={e.place_id} onClick={() => handleSelect(e.description)}>{e.description}</li>))
+                }
+            </ul>
         </div>
     )
 
