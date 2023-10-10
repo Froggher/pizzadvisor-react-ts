@@ -1,8 +1,9 @@
-import { useMemo, useRef, useCallback, useState } from "react";
+import { useMemo, useRef, useCallback, useState, useEffect } from "react";
 import { Circle, GoogleMap, Marker } from "@react-google-maps/api";
-
+import MapView, { Marker } from 'react-native-maps'
 import "./home.css";
 import Places from "./places";
+import { createRoot } from "react-dom/client";
 
 /* By using a ref, you ensure that:
 
@@ -53,12 +54,59 @@ export default function Map() {
                     onLoad={onLoad}>
                     {office &&
                         <>
-                            <Marker position={office} /*icon="https://s3.gsxtr.com/i/p/marker-grog-cutter-15-xfp-29824-480-1.jpg"*/ />
+                            {/* <Marker position={office} /*icon="https://s3.gsxtr.com/i/p/marker-grog-cutter-15-xfp-29824-480-1.jpg"*/ /> */}
                             <Circle center={office} radius={7000} />
+                            <AdvancedMarker map={mapRef} position={office}>
+                                <div>
+                                    <h2>
+                                        Ciaone
+                                    </h2>
+                                </div>
+                            </AdvancedMarker>
                         </>
                     }
                 </GoogleMap>
             </div>
         </div>
     );
+}
+
+
+interface MarkerProps {
+    map: GoogleMap;
+    children: HTMLElement;
+    position: LatLngLiteral;
+}
+
+function AdvancedMarker({ map, children, position }: MarkerProps): void {
+    const [data, testData] = useState<String>('Test')
+
+    const markerRef = useRef();
+    const rootRef = useRef();
+
+    useEffect(() => {
+        if (!rootRef.current) {
+          const container = document.createElement("div");
+          rootRef.current = createRoot(container);
+    
+          markerRef.current = new google.maps.marker.AdvancedMarkerView({
+            position,
+            content: container,
+          });
+        }
+    
+       
+      }, []);
+
+
+    useEffect(() => {
+        rootRef.current.render(children);
+        markerRef.current.position = position;
+        markerRef.current.map = map;
+
+
+
+
+    }, [map, children, position]);
+
 }
