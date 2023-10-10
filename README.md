@@ -5,9 +5,14 @@ https://mui.com/material-ui/react-autocomplete/#combo-box
 https://github.com/evolaric/rgm-example/blob/fd5ee514a6213c5df49d532de0d3892e4409886e/src/InfoWindowComponent.js
 https://codesandbox.io/s/react-google-mapsapi-multiple-markers-infowindow-h6vlq?file=/src/Map.js
 
-# Tutorial utili
+# Tutorial utili per typescript
 https://marketsplash.com/tutorials/typescript/how-to-convert-react-js-to-typescript/
 https://javascript.plainenglish.io/create-a-list-view-in-react-with-typescript-c598be1d0ff5
+https://www.tutorialsteacher.com/typescript/converting-javascript-to-typescript
+
+## Typescript unknown type
+https://bobbyhadz.com/blog/typescript-check-if-unknown-has-property
+https://medium.com/@vinhle95/the-unknown-type-in-typescript-939ec261294b
 
 # React + TypeScript + Vite
 

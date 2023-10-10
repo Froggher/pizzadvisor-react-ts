@@ -1,4 +1,4 @@
-import Home from "./Home"
+import SearchMap from "./SearchMap/SearchMap"
 
 
 function App() {
@@ -8,7 +8,7 @@ function App() {
 
   return (
     <>
-      <Home></Home>
+      <SearchMap></SearchMap>
     </>
   )
 }

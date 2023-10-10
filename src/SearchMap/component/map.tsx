@@ -2,7 +2,7 @@ import { useMemo, useRef, useCallback, useState } from "react";
 import { Circle, GoogleMap, InfoWindow, InfoWindowF, Marker, MarkerF } from "@react-google-maps/api";
 
 import { FaAnchor } from "react-icons/fa";
-import "./home.css";
+import "../SearchMap.css";
 import Places from "./places";
 
 
@@ -84,4 +84,3 @@ export default function Map() {
         </div>
     );
 }
-
