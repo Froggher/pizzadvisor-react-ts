@@ -1,6 +1,10 @@
 # Libreria per combobox e altro
 https://mui.com/material-ui/react-autocomplete/#combo-box
 
+# Ispirazione per le infobox
+https://github.com/evolaric/rgm-example/blob/fd5ee514a6213c5df49d532de0d3892e4409886e/src/InfoWindowComponent.js
+https://codesandbox.io/s/react-google-mapsapi-multiple-markers-infowindow-h6vlq?file=/src/Map.js
+
 # Tutorial utili
 https://marketsplash.com/tutorials/typescript/how-to-convert-react-js-to-typescript/
 https://javascript.plainenglish.io/create-a-list-view-in-react-with-typescript-c598be1d0ff5
