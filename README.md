@@ -5,6 +5,9 @@ https://mui.com/material-ui/react-autocomplete/#combo-box
 https://github.com/evolaric/rgm-example/blob/fd5ee514a6213c5df49d532de0d3892e4409886e/src/InfoWindowComponent.js
 https://codesandbox.io/s/react-google-mapsapi-multiple-markers-infowindow-h6vlq?file=/src/Map.js
 
+## Implementazione tra react-query e react-router
+https://tkdodo.eu/blog/react-query-meets-react-router
+
 # Tutorial utili per typescript
 https://marketsplash.com/tutorials/typescript/how-to-convert-react-js-to-typescript/
 https://javascript.plainenglish.io/create-a-list-view-in-react-with-typescript-c598be1d0ff5
