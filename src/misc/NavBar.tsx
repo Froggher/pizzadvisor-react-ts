@@ -1,5 +1,4 @@
-import { NavLink, Navigate, NavigateFunction, Outlet, useLocation, useNavigate } from "react-router-dom";
-import App from "../App";
+import { NavLink, NavigateFunction, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 
@@ -11,7 +10,7 @@ export default function NavBar() {
   /* Serve per riportare l'utente sulla home page in caso andasse sulla root */
   useEffect(() => {
     if (location.pathname === '/') {
-      navigate('/app');
+      navigate('app');
     }
   }, [location]);
 
