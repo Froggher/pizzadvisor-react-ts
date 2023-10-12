@@ -5,7 +5,7 @@ import { useEffect } from "react";
 export default function NavBar() {
   /* Andrebbe messo un typeguard */
   const navigate: NavigateFunction = useNavigate();
-  let location: any = useLocation();
+  let location = useLocation();
   
   /* Serve per riportare l'utente sulla home page in caso andasse sulla root */
   useEffect(() => {
@@ -24,6 +24,8 @@ export default function NavBar() {
           <NavLink to="app">App</NavLink>
           <br></br>
           <NavLink to="about">About</NavLink>
+          <br></br>
+          <NavLink to="testdatabase">Testdata</NavLink>
           <br></br>
         </nav>
       </header>
