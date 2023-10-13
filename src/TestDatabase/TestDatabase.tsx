@@ -1,30 +1,16 @@
 import { useQuery } from "@tanstack/react-query"
+import { TestDatabaseFun, Test } from "../misc/Http"
 
 //https://tkdodo.eu/blog/react-query-and-type-script
 
 export default function TestDatabase() {
-  /* I type della risposta */
-  interface Test {
-    msg: String
-  }
-  /* Type Inference */
-  async function TestDatabase(): Promise<Test> {
-    const response = await fetch("http://localhost:5445");
-    const dataTest = await response.json();
-    console.log(dataTest);
-    return dataTest
-  }
 
   /* data ha il type dell'interfaccia mentre isLoading ha unknown */
-  
-  const { data, error, isLoading } = useQuery({
-    queryKey: ['test'],
-    queryFn: TestDatabase,
 
-  })
+  const { data, error, isLoading } = useQuery<Test>(['test'], () => TestDatabaseFun('localhost:5173'));
 
 
-  
+
   if (isLoading) {
     return <h2>Caricamento in corso...</h2>
   }
@@ -40,7 +26,7 @@ export default function TestDatabase() {
     <>
 
       <p>Test database</p>
-      <h2>{data?.msg}</h2>
+      <h2>{data?.message}</h2>
 
     </>
   )
