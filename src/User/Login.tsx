@@ -40,13 +40,13 @@ export default function Login() {
                 <div>
                     <label>
                         Email:
-                        <input type="email" name="email" maxLength={32} minLength={4}/>
+                        <input type="email" name="email" maxLength={32} minLength={4} required={true}/>
                     </label>
                 </div>
                 <div>
                     <label>
                         Password:
-                        <input type="password" name="password" maxLength={32} minLength={8}/>
+                        <input type="password" name="password" maxLength={32} minLength={8} required={true}/>
                     </label>
                 </div>
                 <div>

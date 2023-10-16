@@ -27,6 +27,8 @@ export default function NavBar() {
           <br></br>
           <NavLink to="user">User</NavLink>
           <br></br>
+          <NavLink to="signup">SignUp</NavLink>
+          <br></br>
           <NavLink to="testdatabase">Testdata</NavLink>
           <br></br>
         </nav>
