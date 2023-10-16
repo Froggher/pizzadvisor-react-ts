@@ -68,13 +68,13 @@ export default function SignUp() {
                 <div>
                     <label>
                         Primo nome:
-                        <input type="text" name="nome" maxLength={32} minLength={2} required={true}/>
+                        <input type="text" name="first_name" maxLength={32} minLength={2} required={true}/>
                     </label>
                 </div>
                 <div>
                     <label>
                         Cognome:
-                        <input type="text" name="cognome" maxLength={32} minLength={2} required={true}/>
+                        <input type="text" name="last_name" maxLength={32} minLength={2} required={true}/>
                     </label>
                 </div>
                 <div>
