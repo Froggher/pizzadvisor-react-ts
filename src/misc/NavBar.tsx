@@ -21,9 +21,11 @@ export default function NavBar() {
         <nav>
           <NavLink to="app">Home</NavLink>
           <br></br>
-          <NavLink to="app">App</NavLink>
+          <NavLink to="map">Map</NavLink>
           <br></br>
           <NavLink to="about">About</NavLink>
+          <br></br>
+          <NavLink to="user">User</NavLink>
           <br></br>
           <NavLink to="testdatabase">Testdata</NavLink>
           <br></br>

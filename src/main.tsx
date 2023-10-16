@@ -9,6 +9,8 @@ import NavBar from './misc/NavBar.tsx';
 import About from './About/About.tsx';
 import TestDatabase from './TestDatabase/TestDatabase.jsx';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import SearchMap from './SearchMap/SearchMap.tsx';
+import Login from './User/Login.tsx';
 //import './index.css'
 
 
@@ -27,8 +29,16 @@ const router = createBrowserRouter([
         element: <App />,
       },
       {
+        path: "map",
+        element: <SearchMap />,
+      },
+      {
         path: "testdatabase",
         element: <TestDatabase />,
+      },
+      {
+        path: "user",
+        element: <Login />,
       },
       {
         path: "about",

@@ -1,4 +1,3 @@
-import SearchMap from "./SearchMap/SearchMap"
 
 
 function App() {
@@ -8,7 +7,7 @@ function App() {
 
   return (
     <>
-      <SearchMap></SearchMap>
+      <h2>Questa é la homepage</h2>
     </>
   )
 }
