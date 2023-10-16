@@ -16,7 +16,7 @@ export default function SignUp() {
     }
 
     const loginMutation = useMutation<BackEnd, unknown, UserSignUp>({
-        mutationFn: (form) => PostFun('/user/registration', form)
+        mutationFn: (form) => PostFun('/user/signup', form)
     })
 
     //La variabile e corrisponde ai valori event contenuti nel <form>
@@ -48,8 +48,8 @@ export default function SignUp() {
         const form = {
             email: target.email.value,
             psw: target.password.value,
-            first_name: target.email.value,
-            last_name: target.password.value,
+            first_name: target.first_name.value,
+            last_name: target.last_name.value,
         };
 
         //In caso il controllo non viene superato non viene effettua la mutate
