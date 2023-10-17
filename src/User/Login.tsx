@@ -50,7 +50,7 @@ export default function Login() {
                     </label>
                 </div>
                 <div>
-                    <input type="submit" value="Login" />
+                    <input type="submit" value="Login" disabled={loginMutation.isLoading} />
                 </div>
             </form>
             <div>

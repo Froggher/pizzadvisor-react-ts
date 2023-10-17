@@ -1,61 +1,76 @@
 import { useMutation } from "@tanstack/react-query";
 import { BackEnd, PostFun } from "../misc/Http";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function SignUp() {
+    //UseState per controllo password corrispondenti
     const [formCheck, setFormCheck] = useState({
-        isDisabled: true,
-        displayError: '',
+        disabled: true,
+        display_message: '',
     });
 
+    //Questo useState corrisponde ai valori input 
+    const [form, setForm] = useState({
+        email: "",
+        psw: "",
+        psw_check: "",
+        first_name: "",
+        last_name: "",
+    });
+
+
+    // Interfaccia per la useMutation che specifica i type dei parametri funzione per mutationFn
     interface UserSignUp {
         email: string
         psw: string
         first_name: string
         last_name: string
     }
-
+    // La useMutation per far partire la query post con i dati del nuovo utente
     const loginMutation = useMutation<BackEnd, unknown, UserSignUp>({
         mutationFn: (form) => PostFun('/user/signup', form)
     })
+
+
+    // La handle si occupa di aggiornare i valori di profile ad ogni input dell'utente
+    const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
+        const { name, value } = e.currentTarget;
+        setForm((prevProfile) => (
+            {
+                ...prevProfile,
+                [name]: value
+            }));
+    };
+
+    // Controllo che le due password corrispondono
+    useEffect(() => {
+        if (form.psw === form.psw_check) {
+            setFormCheck({
+                display_message: '',
+                disabled: false
+            })
+        } else {
+            setFormCheck({
+                display_message: 'Le due password devono corrispondere',
+                disabled: true
+            })
+        }
+
+    }, [form.psw, form.psw_check])
+
+
 
     //La variabile e corrisponde ai valori event contenuti nel <form>
     const handleSubmit = (e: React.SyntheticEvent) => {
         //Evitiamo di far ricaricare la pagina
         e.preventDefault();
-        // Qui specifichiamo a typescript che e.target ha il type elencato qui sotto
-        const target = e.target as typeof e.target & {
-            email: { value: string };
-            password: { value: string };
-            passwordcheck: { value: string };
-            first_name: { value: string };
-            last_name: { value: string };
-        };
-        // Controllo che le due password corrispondono
-            if (target.password.value === target.passwordcheck.value) {
-                setFormCheck({
-                    isDisabled: false,
-                    displayError: ""
-                })
-            } else {
-                setFormCheck({
-                    isDisabled: true,
-                    displayError: "Le due password devono corrispondere"
-                })
-            }
-
-        //Creaiamo l'object che verrá mandato come body della post
-        const form = {
-            email: target.email.value,
-            psw: target.password.value,
-            first_name: target.first_name.value,
-            last_name: target.last_name.value,
-        };
-
+        
         //In caso il controllo non viene superato non viene effettua la mutate
-        if (!formCheck.isDisabled) {
-            loginMutation.mutate(form);
+        if (!formCheck.disabled) {
+            const { psw_check, ...prevForm } = form
+            loginMutation.mutate(prevForm);
         }
+
     };
 
 
@@ -68,36 +83,36 @@ export default function SignUp() {
                 <div>
                     <label>
                         Primo nome:
-                        <input type="text" name="first_name" maxLength={32} minLength={2} required={true}/>
+                        <input type="text" name="first_name" value={form.first_name} maxLength={32} minLength={2} required={true} onChange={handleChange} />
                     </label>
                 </div>
                 <div>
                     <label>
                         Cognome:
-                        <input type="text" name="last_name" maxLength={32} minLength={2} required={true}/>
+                        <input type="text" name="last_name" value={form.last_name} maxLength={32} minLength={2} required={true} onChange={handleChange} />
                     </label>
                 </div>
                 <div>
                     <label>
                         Email:
-                        <input type="email" name="email" maxLength={32} minLength={4} required={true}/>
+                        <input type="email" name="email" value={form.email} maxLength={32} minLength={4} required={true} onChange={handleChange} />
                     </label>
                 </div>
                 <div>
                     <label>
                         Password:
-                        <input type="password" name="password" maxLength={32} minLength={8} required={true}/>
+                        <input type="password" name="psw" value={form.psw} maxLength={32} minLength={8} required={true} onChange={handleChange} />
                     </label>
                 </div>
                 <div>
                     <label>
                         Ripeti password:
-                        <input type="password" name="passwordcheck" maxLength={32} minLength={8} required={true}/>
+                        <input type="password" name="psw_check" value={form.psw_check} maxLength={32} minLength={8} required={true} onChange={handleChange} />
                     </label>
                 </div>
-                {formCheck.isDisabled && <h2>{formCheck.displayError}</h2>}
+                {formCheck.disabled && <h2>{formCheck.display_message}</h2>}
                 <div>
-                    <input type="submit" value="Login" />
+                    <input type="submit" value="Login" disabled={loginMutation.isLoading}/>
                 </div>
             </form>
             <div>
