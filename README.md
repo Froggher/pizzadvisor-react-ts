@@ -1,3 +1,6 @@
+# Metodo per aggiornare navBar
+https://stackoverflow.com/questions/56192101/react-refresh-component-on-login
+
 # Libreria per combobox e altro
 https://mui.com/material-ui/react-autocomplete/#combo-box
 

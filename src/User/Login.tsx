@@ -1,7 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
 import { BackEnd, PostFun } from "../misc/Http";
-
+import Cookies from "js-cookie";
 export default function Login() {
+
 
     interface UserLogin {
         email: string
@@ -30,6 +31,12 @@ export default function Login() {
         loginMutation.mutate(form);
     };
 
+    // Se i dati di login vengono salavati nel cookie
+    if (loginMutation.isSuccess) {
+        Cookies.set('token', loginMutation.data.data, { expires: 7 })
+
+        //Cookies.remove('token')
+    }
 
     return (
         <>
@@ -40,13 +47,13 @@ export default function Login() {
                 <div>
                     <label>
                         Email:
-                        <input type="email" name="email" maxLength={32} minLength={4} required={true}/>
+                        <input type="email" name="email" maxLength={32} minLength={4} required={true} />
                     </label>
                 </div>
                 <div>
                     <label>
                         Password:
-                        <input type="password" name="password" maxLength={32} minLength={8} required={true}/>
+                        <input type="password" name="password" maxLength={32} minLength={8} required={true} />
                     </label>
                 </div>
                 <div>
@@ -58,7 +65,10 @@ export default function Login() {
                 {loginMutation.error instanceof Error && <div>An error occurred: {loginMutation.error.message} ErrorName: {loginMutation.error.name}</div>}
                 <h2>{loginMutation.data?.message}</h2>
                 <h2>{loginMutation.data?.data}</h2>
-
+                <h2>{Cookies.get('token')}</h2>
+                <div>
+                    <input type="submit" value="LogOut" onClick={() => Cookies.remove('token')} />
+                </div>
             </div>
         </>
     )

@@ -1,8 +1,9 @@
 /* I type della risposta */
 export interface BackEnd {
-    message: String
+    message: string
     name: number
-    data: String
+    data: string
+    auth: boolean
 }
 /* Funzione get che ha come parametro optionale il token */
 export async function GetFun(url: string, token?: string) {

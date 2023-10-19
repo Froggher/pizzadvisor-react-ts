@@ -1,6 +1,6 @@
 import { NavLink, NavigateFunction, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-
+import Cookies from "js-cookie";
 
 export default function NavBar() {
   /* Andrebbe messo un typeguard */
@@ -34,6 +34,7 @@ export default function NavBar() {
         </nav>
       </header>
       <div>
+      {Cookies.get('token')}
         <Outlet />
       </div>
 
