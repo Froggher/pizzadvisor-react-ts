@@ -1,17 +1,35 @@
 import { useMutation } from "@tanstack/react-query";
 import { BackEnd, PostFun } from "../misc/Http";
-import Cookies from "js-cookie";
+
+import { useCookies } from "react-cookie";
 export default function Login() {
+    const [, setCookie, removeCookie] = useCookies<'user', BackEnd>(["user"]);
+    
+    //Creiamo la data per mettere quando scade il token
+    const currentDate = new Date();
+    // Impostiamo dal giorno di oggi e aggiungiamo 30 giorni
+    currentDate.setDate(currentDate.getDate() + 30);
 
-
+    
     interface UserLogin {
         email: string
         psw: string
     }
 
     const loginMutation = useMutation<BackEnd, unknown, UserLogin>({
-        mutationFn: (form) => PostFun('/login', form)
-    })
+        mutationFn: (form) => PostFun('/login', form),
+        onSuccess: (data) => {
+            setCookie("user", data.user, { expires: currentDate });
+        }
+    });
+
+
+    // Se i dati di login vengono salavati nel cookie
+    if (loginMutation.isSuccess) {
+        console.log('ciao')
+
+
+    }
 
     //La variabile e corrisponde ai valori event contenuti nel <form>
     const handleSubmit = (e: React.SyntheticEvent) => {
@@ -31,12 +49,7 @@ export default function Login() {
         loginMutation.mutate(form);
     };
 
-    // Se i dati di login vengono salavati nel cookie
-    if (loginMutation.isSuccess) {
-        Cookies.set('token', loginMutation.data.data, { expires: 7 })
 
-        //Cookies.remove('token')
-    }
 
     return (
         <>
@@ -65,9 +78,9 @@ export default function Login() {
                 {loginMutation.error instanceof Error && <div>An error occurred: {loginMutation.error.message} ErrorName: {loginMutation.error.name}</div>}
                 <h2>{loginMutation.data?.message}</h2>
                 <h2>{loginMutation.data?.data}</h2>
-                <h2>{Cookies.get('token')}</h2>
+                {/* <h2>{Cookies.get('token')}</h2> */}
                 <div>
-                    <input type="submit" value="LogOut" onClick={() => Cookies.remove('token')} />
+                    <input type="submit" value="LogOut" onClick={() => removeCookie("user")} />
                 </div>
             </div>
         </>

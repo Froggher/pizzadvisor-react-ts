@@ -1,4 +1,5 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { CookiesProvider } from "react-cookie";
 import NavBar from "./misc/NavBar";
 import ErrorPage from "./ErrorPage/ErrorPage";
 import SearchMap from "./SearchMap/SearchMap";
@@ -11,41 +12,43 @@ import Login from "./User/Login";
 function App() {
 
 
-/* Inizializzazione react router */
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <NavBar />,
-    errorElement: <ErrorPage />,
-    children: [
-      {
-        path: "map",
-        element: <SearchMap />,
-      },
-      {
-        path: "testdatabase",
-        element: <TestDatabase />,
-      },
-      {
-        path: "user",
-        element: <Login />,
-      },
-      {
-        path: "signup",
-        element: <SignUp />,
-      },
-      {
-        path: "about",
-        element: <About />,
-      },
-    ],
-  },
-]);
+  /* Inizializzazione react router */
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <NavBar />,
+      errorElement: <ErrorPage />,
+      children: [
+        {
+          path: "map",
+          element: <SearchMap />,
+        },
+        {
+          path: "testdatabase",
+          element: <TestDatabase />,
+        },
+        {
+          path: "user",
+          element: <Login />,
+        },
+        {
+          path: "signup",
+          element: <SignUp />,
+        },
+        {
+          path: "about",
+          element: <About />,
+        },
+      ],
+    },
+  ]);
 
 
   return (
     <>
-      <RouterProvider router={router} />
+      <CookiesProvider>
+        <RouterProvider router={router} />
+      </CookiesProvider>
       <h2>Questa é la homepage</h2>
     </>
   )

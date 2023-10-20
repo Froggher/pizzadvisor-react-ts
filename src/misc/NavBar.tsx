@@ -1,26 +1,24 @@
 import { NavLink, NavigateFunction, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import Cookies from "js-cookie";
-
+// import Cookies from "js-cookie";
+import { useCookies } from "react-cookie";
+import { BackEnd } from "./Http";
 export default function NavBar() {
   /* Andrebbe messo un typeguard */
   const navigate: NavigateFunction = useNavigate();
   let location = useLocation();
-  
+
   /* Serve per riportare l'utente sulla home page in caso andasse sulla root */
   useEffect(() => {
     if (location.pathname === '/') {
-      navigate('app');
+      navigate('map');
     }
   }, [location]);
-
-
+  const [cookies] = useCookies<'user', BackEnd>(["user"]);
   return (
     <div>
       <header>
         <nav>
-          <NavLink to="app">Home</NavLink>
-          <br></br>
           <NavLink to="map">Map</NavLink>
           <br></br>
           <NavLink to="about">About</NavLink>
@@ -34,7 +32,7 @@ export default function NavBar() {
         </nav>
       </header>
       <div>
-      {Cookies.get('token')}
+        {cookies.user?.first_name}
         <Outlet />
       </div>
 

@@ -1,10 +1,18 @@
 /* I type della risposta */
 export interface BackEnd {
     message: string
-    name: number
-    data: string
-    auth: boolean
+    name?: number
+    data?: string
+    user?: {
+        email: string,
+        token: string,
+        first_name: string,
+        last_name: string,
+    }
 }
+
+
+
 /* Funzione get che ha come parametro optionale il token */
 export async function GetFun(url: string, token?: string) {
     if (typeof (token) === 'undefined') {

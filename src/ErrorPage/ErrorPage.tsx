@@ -1,9 +1,10 @@
+import { useCookies } from "react-cookie";
 import { useRouteError } from "react-router-dom";
 
 
-
 export default function ErrorPage() {
-
+    
+    const [, , removeCookie] = useCookies(["user"]);
 
     /* Utilizzo di typeguard per gestire l'elemento unknown */
     interface ErrorMessage {
@@ -41,6 +42,7 @@ export default function ErrorPage() {
         return (
             <>
                 <h2>Errore non definito nella lettura errore</h2>
+                <input type="submit" value="LogOut" onClick={() => removeCookie("user")} />
             </>
         )
     }
