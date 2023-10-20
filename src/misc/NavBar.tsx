@@ -23,7 +23,7 @@ export default function NavBar() {
           <br></br>
           <NavLink to="about">About</NavLink>
           <br></br>
-          <NavLink to="user">User</NavLink>
+          <NavLink to="signin">SignIn</NavLink>
           <br></br>
           <NavLink to="signup">SignUp</NavLink>
           <br></br>

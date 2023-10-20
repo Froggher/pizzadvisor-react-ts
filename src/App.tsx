@@ -6,7 +6,7 @@ import SearchMap from "./SearchMap/SearchMap";
 import TestDatabase from "./TestDatabase/TestDatabase";
 import SignUp from "./User/SignUp";
 import About from "./About/About";
-import Login from "./User/Login";
+import SignIn from "./User/SignIn";
 
 
 function App() {
@@ -28,8 +28,8 @@ function App() {
           element: <TestDatabase />,
         },
         {
-          path: "user",
-          element: <Login />,
+          path: "signin",
+          element: <SignIn />,
         },
         {
           path: "signup",

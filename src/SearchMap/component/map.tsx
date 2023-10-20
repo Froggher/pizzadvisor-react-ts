@@ -4,7 +4,7 @@ import { Circle, GoogleMap, InfoWindow, InfoWindowF, Marker, MarkerF } from "@re
 import { FaAnchor } from "react-icons/fa";
 import "../SearchMap.css";
 import Places from "./places";
-
+import SendReview from "./sendReview";
 
 // /ttps://github.com/evolaric/rgm-example/blob/fd5ee514a6213c5df49d532de0d3892e4409886e/src/InfoWindowComponent.js
 // Ispirazione per le infobox
@@ -19,9 +19,15 @@ import Places from "./places";
 
 type LatLngLiteral = google.maps.LatLngLiteral;
 type MapOption = google.maps.MapOptions;
+type PlaceInfo = google.maps.GeocoderResult;
+
 
 export default function Map() {
-    const [office, setOffice] = useState<LatLngLiteral>();
+    const [place, setPlace] = useState<LatLngLiteral>();
+    const [info, setInfo] = useState<PlaceInfo>();
+    const [name, setName] = useState<string>();
+
+
     const [activeMarker, setActiveMarker] = useState<String>('');
     const mapRef = useRef<GoogleMap>();
 
@@ -42,10 +48,13 @@ export default function Map() {
         <div className="container">
             <div className="controls">
                 <h2>Commute</h2>
-                <Places setOffice={(position) => {
-                    setOffice(position);
+                <Places setRestaurant={(position) => {
+                    setPlace(position);
                     mapRef.current?.panTo(position);
-                }}></Places>
+                }}
+                    placeInfo={(a) => { setInfo(a) }}
+                    placeName={(b) => { setName(b) }}
+                ></Places>
             </div>
 
             <div className="map">
@@ -55,22 +64,17 @@ export default function Map() {
                     mapContainerClassName="map-container"
                     options={options}
                     onLoad={onLoad}>
-                    {office &&
+                    {place &&
                         <>
-                            <MarkerF position={office} visible={true} key={'owo'}>
-                                <InfoWindowF position={office} options={{ maxWidth: 320 }}>
+                            <MarkerF position={place} visible={true} key={'owo'}>
+                                <InfoWindowF position={place} options={{ maxWidth: 320 }}>
                                     <div>
                                         <FaAnchor />
                                         <h3>InfoWindow</h3>
-                                        <p>
-                                            A tree needs to be your friend if you're going to paint him. The only
-                                            prerequisite is that it makes you happy. If it makes you happy then
-                                            it's good. I thought today we would do a happy little picture. This
-                                            present moment is perfect simply due to the fact you're experiencing
-                                            it. Work on one thing at a time. Don't get carried away - we have
-                                            plenty of time. I really believe that if you practice enough you could
-                                            paint the 'Mona Lisa' with a two-inch brush.
-                                        </p>
+                                        {info && name ? <SendReview placeInfo={info} placeName={name} /> : null}
+
+                                        
+
                                     </div>
                                 </InfoWindowF>
 

@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { BackEnd, PostFun } from "../misc/Http";
 
 import { useCookies } from "react-cookie";
-export default function Login() {
+export default function SignIn() {
     const [, setCookie, removeCookie] = useCookies<'user', BackEnd>(["user"]);
     
     //Creiamo la data per mettere quando scade il token
