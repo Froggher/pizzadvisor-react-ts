@@ -6,17 +6,18 @@ import { Link } from "react-router-dom";
 type SendReviewProps = {
   placeInfo: google.maps.GeocoderResult;
   placeName: string;
+  placePosition: google.maps.LatLngLiteral;
 };
 
-export default function SendReview({ placeInfo, placeName }: SendReviewProps) {
+export default function SendReview({ placeInfo, placeName, placePosition }: SendReviewProps) {
   const [cookies] = useCookies<'user', BackEnd>(["user"]);
   interface Review {
-    object: string
-    body: string
+    review_object: string
+    review_body: string
   }
 
   const sendReviewMutation = useMutation<BackEnd, unknown, Review>({
-    mutationFn: (form) => PostFun('/sendreview', form, cookies.user?.token),
+    mutationFn: (form) => PostFun(`/review/post/${placeInfo.place_id}`, form, cookies.user?.token),
 
   });
 
@@ -26,13 +27,16 @@ export default function SendReview({ placeInfo, placeName }: SendReviewProps) {
     e.preventDefault();
     // Qui specifichiamo a typescript che e.target ha il type elencato qui sotto
     const target = e.target as typeof e.target & {
-      email: { value: string };
-      password: { value: string };
+      review_object: { value: string };
+      review_body: { value: string };
     };
-    //Creaiamo l'object che verrá mandato come body della post
+    //Creaiamo l'review_object che verrá mandato come review_body della post
     const form = {
-      object: target.email.value,
-      body: target.password.value,
+      review_object: target.review_object.value,
+      review_body: target.review_body.value,
+      full_name: placeName,
+      lat: placePosition.lat,
+      lng: placePosition.lng,
     };
 
     sendReviewMutation.mutate(form);
@@ -50,9 +54,9 @@ export default function SendReview({ placeInfo, placeName }: SendReviewProps) {
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <label>Oggetto{placeInfo.place_id}
+        <label>Oggetto{placePosition.lng}
           <textarea
-            name="object"
+            name="review_object"
             placeholder="Oggetto..."
             maxLength={64}
             rows={1}
@@ -61,9 +65,9 @@ export default function SendReview({ placeInfo, placeName }: SendReviewProps) {
         </label>
       </div>
       <div>
-        <label>Corpo{placeName}
+        <label>Corpo{placeInfo.place_id}
           <textarea id="bodyTextArea"
-            name="body"
+            name="review_body"
             placeholder="Messaggio..."
             rows={9}
             required={true}
@@ -71,7 +75,7 @@ export default function SendReview({ placeInfo, placeName }: SendReviewProps) {
         </label>
       </div>
       <div>
-        <input type="submit" value="Invia recensione" />
+        <input type="submit" value="Invia recensione" disabled={sendReviewMutation.isLoading}/>
       </div>
     </form>
   );

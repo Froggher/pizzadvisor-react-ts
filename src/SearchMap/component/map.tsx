@@ -71,7 +71,7 @@ export default function Map() {
                                     <div>
                                         <FaAnchor />
                                         <h3>InfoWindow</h3>
-                                        {info && name ? <SendReview placeInfo={info} placeName={name} /> : null}
+                                        {info && name ? <SendReview placeInfo={info} placeName={name} placePosition={place}/> : null}
 
                                         
 
