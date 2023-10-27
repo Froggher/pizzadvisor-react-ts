@@ -8,6 +8,14 @@ export interface BackEnd {
         token: string,
         first_name: string,
         last_name: string,
+    },
+    review?: {
+        first_name: string,
+        last_name: string,
+        review_object: string,
+        review_body: string,
+        created: Date,
+        modified: boolean,
     }
 }
 

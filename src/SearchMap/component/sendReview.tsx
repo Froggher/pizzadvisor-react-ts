@@ -1,7 +1,8 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { BackEnd, PostFun } from "../../misc/Http";
 import { useCookies } from "react-cookie";
 import { Link } from "react-router-dom";
+import ViewReview from "./ViewReview";
 
 type SendReviewProps = {
   placeInfo: google.maps.GeocoderResult;
@@ -15,10 +16,12 @@ export default function SendReview({ placeInfo, placeName, placePosition }: Send
     review_object: string
     review_body: string
   }
+  const queryClient = useQueryClient();
 
   const sendReviewMutation = useMutation<BackEnd, unknown, Review>({
     mutationFn: (form) => PostFun(`/review/post/${placeInfo.place_id}`, form, cookies.user?.token),
-
+    // Invalidiamo la query delle review in modo da aggiornarle con la nostra nuova recensione
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['review'] })
   });
 
 
@@ -52,32 +55,35 @@ export default function SendReview({ placeInfo, placeName, placePosition }: Send
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Oggetto{placePosition.lng}
-          <textarea
-            name="review_object"
-            placeholder="Oggetto..."
-            maxLength={64}
-            rows={1}
-            required={true}
-          />
-        </label>
-      </div>
-      <div>
-        <label>Corpo{placeInfo.place_id}
-          <textarea id="bodyTextArea"
-            name="review_body"
-            placeholder="Messaggio..."
-            rows={9}
-            required={true}
-          />
-        </label>
-      </div>
-      <div>
-        <input type="submit" value="Invia recensione" disabled={sendReviewMutation.isLoading}/>
-      </div>
-    </form>
+    <div>
+      <ViewReview place_id={placeInfo.place_id} />
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Oggetto{placePosition.lng}
+            <textarea
+              name="review_object"
+              placeholder="Oggetto..."
+              maxLength={64}
+              rows={1}
+              required={true}
+            />
+          </label>
+        </div>
+        <div>
+          <label>Corpo{placeInfo.place_id}
+            <textarea id="bodyTextArea"
+              name="review_body"
+              placeholder="Messaggio..."
+              rows={9}
+              required={true}
+            />
+          </label>
+        </div>
+        <div>
+          <input type="submit" value="Invia recensione" disabled={sendReviewMutation.isLoading} />
+        </div>
+      </form>
+    </div>
   );
 };
 
