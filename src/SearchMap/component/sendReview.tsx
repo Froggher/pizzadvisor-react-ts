@@ -2,26 +2,28 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { BackEnd, PostFun } from "../../misc/Http";
 import { useCookies } from "react-cookie";
 import { Link } from "react-router-dom";
-import ViewReview from "./ViewReview";
 
 type SendReviewProps = {
-  placeInfo: google.maps.GeocoderResult;
+  place_id: string;
   placeName: string;
   placePosition: google.maps.LatLngLiteral;
 };
 
-export default function SendReview({ placeInfo, placeName, placePosition }: SendReviewProps) {
+export default function SendReview({ place_id, placeName, placePosition }: SendReviewProps) {
   const [cookies] = useCookies<'user', BackEnd>(["user"]);
   interface Review {
-    review_object: string
-    review_body: string
+    review_object: string;
+    review_body: string;
   }
   const queryClient = useQueryClient();
 
   const sendReviewMutation = useMutation<BackEnd, unknown, Review>({
-    mutationFn: (form) => PostFun(`/review/post/${placeInfo.place_id}`, form, cookies.user?.token),
+    mutationFn: (form) => PostFun(`/review/post/${place_id}`, form, cookies.user?.token),
     // Invalidiamo la query delle review in modo da aggiornarle con la nostra nuova recensione
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['review'] })
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['review'] });
+      queryClient.invalidateQueries({ queryKey: ['places'] });
+    }
   });
 
 
@@ -56,7 +58,6 @@ export default function SendReview({ placeInfo, placeName, placePosition }: Send
 
   return (
     <div>
-      <ViewReview place_id={placeInfo.place_id} />
       <form onSubmit={handleSubmit}>
         <div>
           <label>Oggetto{placePosition.lng}
@@ -70,7 +71,7 @@ export default function SendReview({ placeInfo, placeName, placePosition }: Send
           </label>
         </div>
         <div>
-          <label>Corpo{placeInfo.place_id}
+          <label>Corpo{place_id}
             <textarea id="bodyTextArea"
               name="review_body"
               placeholder="Messaggio..."

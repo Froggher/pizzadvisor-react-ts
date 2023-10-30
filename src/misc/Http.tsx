@@ -16,6 +16,14 @@ export interface BackEnd {
         review_body: string,
         created: Date,
         modified: boolean,
+    },
+    place?: {
+        place_id: string,
+        full_name: string,
+        lat: number,
+        lng: number,
+        restaurant: boolean,
+        pizza: boolean,
     }
 }
 

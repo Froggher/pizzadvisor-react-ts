@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { BackEnd, GetFun } from "../../misc/Http";
 
 type ViewReviewProps = {
@@ -6,7 +6,7 @@ type ViewReviewProps = {
   };
 
 export default function ViewReview({ place_id }: ViewReviewProps) {
-
+  console.log("VIEWREVIREW")
 
     const { data, error, isLoading } = useQuery<BackEnd>(['review', place_id], () => GetFun(`/review/get/${place_id}`));
 
