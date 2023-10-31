@@ -5,19 +5,17 @@ import { Link } from "react-router-dom";
 
 type SendReviewProps = {
   place_id: string;
-  placeName: string;
-  placePosition: google.maps.LatLngLiteral;
 };
 
-export default function SendReview({ place_id, placeName, placePosition }: SendReviewProps) {
+export default function SendReview({ place_id }: SendReviewProps) {
   const [cookies] = useCookies<'user', BackEnd>(["user"]);
-  interface Review {
-    review_object: string;
-    review_body: string;
-  }
+  // interface Review {
+  //   review_object: string;
+  //   review_body: string;
+  // }
   const queryClient = useQueryClient();
 
-  const sendReviewMutation = useMutation<BackEnd, unknown, Review>({
+  const sendReviewMutation = useMutation<BackEnd, unknown, object>({
     mutationFn: (form) => PostFun(`/review/post/${place_id}`, form, cookies.user?.token),
     // Invalidiamo la query delle review in modo da aggiornarle con la nostra nuova recensione
     onSuccess: () => {
@@ -39,9 +37,7 @@ export default function SendReview({ place_id, placeName, placePosition }: SendR
     const form = {
       review_object: target.review_object.value,
       review_body: target.review_body.value,
-      full_name: placeName,
-      lat: placePosition.lat,
-      lng: placePosition.lng,
+
     };
 
     sendReviewMutation.mutate(form);
@@ -60,7 +56,7 @@ export default function SendReview({ place_id, placeName, placePosition }: SendR
     <div>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Oggetto{placePosition.lng}
+          <label>Oggetto
             <textarea
               name="review_object"
               placeholder="Oggetto..."

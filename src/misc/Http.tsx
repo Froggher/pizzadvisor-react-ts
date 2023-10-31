@@ -1,8 +1,9 @@
-/* I type della risposta */
+/* I type della risposta dal nostro backend*/
 export interface BackEnd {
-    message: string
-    name?: number
-    data?: string
+    message: string,
+    is_present?: boolean,
+    name?: number,
+    data?: string,
     user?: {
         email: string,
         token: string,
@@ -22,9 +23,32 @@ export interface BackEnd {
         full_name: string,
         lat: number,
         lng: number,
-        restaurant: boolean,
-        pizza: boolean,
     }
+    det_place?: {
+        place_id: string,
+        full_name: string,
+        lat: number,
+        lng: number,
+        only_name: string,
+        formatted_address: string,
+        opening_hours: string,
+        formatted_phone_number: string,
+        website: string,
+        price_level: number,
+        google_rating: number,
+    }
+    
+}
+
+/* I type della risposta dall'api del meteo*/
+export interface Weather {
+    current: {
+        time: Date,
+        temperature_2m: number,
+        relativehumidity_2m: number,
+        weathercode: number,
+        windspeed_10m: number,
+    },
 }
 
 
@@ -86,3 +110,22 @@ export async function PostFun(url: string, body: object, token?: string) {
     console.log(token)
     return await response.json();
 }
+
+
+
+// Una fetch specifica per i effettuare get all'api del meteo
+export async function getWeatherData(lat: number, lng: number) {
+    const response = await fetch(
+        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current=temperature_2m,relativehumidity_2m,weathercode,windspeed_10m`);
+    if (response.status !== 200) {
+        /* In caso di errore verrà mostrato quello che mandato express */
+        const resJson = await response.json()
+        throw new Error(resJson.message) // Così estraiamo il messaggio preciso
+    }
+    return await response.json();
+}
+// Interfaccia per specificare i type estratti da queryKey della mutation
+export type latlng = {
+    lat: number,
+    lng: number,
+};

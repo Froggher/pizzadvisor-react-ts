@@ -2,13 +2,14 @@ import { useMemo, useRef, useCallback, useState } from "react";
 import { GoogleMap, InfoWindowF, MarkerF } from "@react-google-maps/api";
 
 import { FaAnchor } from "react-icons/fa";
-import "../SearchMap.css";
-import Places from "./places";
-import SendReview from "./sendReview";
-import ViewReview from "./ViewReview";
-import Locate from "./locate";
+import "./SearchMap.css";
+import Places from "./component/places";
+import SendReview from "./component/sendReview";
+import ViewReview from "./component/ViewReview";
+import Locate from "./component/locate";
 import { useQuery } from "@tanstack/react-query";
-import { BackEnd, GetFun } from "../../misc/Http";
+import { BackEnd, GetFun } from "../misc/Http";
+import { Link } from "react-router-dom";
 
 // /ttps://github.com/evolaric/rgm-example/blob/fd5ee514a6213c5df49d532de0d3892e4409886e/src/InfoWindowComponent.js
 // Ispirazione per le infobox
@@ -29,7 +30,7 @@ type MapOption = google.maps.MapOptions;
 export default function Map() {
     const [place, setPlace] = useState<LatLngLiteral>();
     const [placeId, setPlaceId] = useState<string>();
-    const [name, setName] = useState<string>();
+
 
 
     const [activeMarker, setActiveMarker] = useState<boolean>(false);
@@ -58,15 +59,16 @@ export default function Map() {
                 {isLoading && <p>Caricamento luoghi in corso...</p>}
                 {isError && <p>Errore caricamento luoghi</p>}
                 <Locate setUserPosition={(position) => {
-                    mapRef.current?.panTo(position)
+                    mapRef.current?.panTo(position);
                 }}></Locate>
-                <h2>Commute</h2>
+                <h2>Ristoranti e pizzerie</h2>
                 <Places setRestaurant={(position) => {
                     setPlace(position);
-                    mapRef.current?.panTo(position)
+                    mapRef.current?.panTo(position);
+                    setActiveMarker(true);
                 }}
-                    placeInfo={(a) => { setPlaceId(a.place_id) }}
-                    placeName={(b) => { setName(b) }}
+                    placeInfo={(a) => { setPlaceId(a) }}
+                    
                 ></Places>
             </div>
 
@@ -83,16 +85,17 @@ export default function Map() {
                         <>
                             <MarkerF position={place} visible={true} key={'owo'} onClick={() => setActiveMarker(true)}>
                                 {/* Serve per chiudere e riaprire la schermata di InfoWindowF */}
-                                {activeMarker &&
+                                {activeMarker && 
                                     <InfoWindowF position={place} options={{ maxWidth: 320 }} onCloseClick={() => { setActiveMarker(false); setPlace(undefined) }}>
                                         <div>
                                             <FaAnchor />
                                             <h3>InfoWindow</h3>
 
-                                            {placeId && name ?
+                                            {placeId ?
                                                 <div>
                                                     <ViewReview place_id={placeId} />
-                                                    <SendReview place_id={placeId} placeName={name} placePosition={place} />
+                                                    <SendReview place_id={placeId} />
+                                                    <Link to={`/detailedplace/${placeId}`}>Ulteriori dettagli</Link>
                                                 </div> : null}
 
                                         </div>
@@ -109,7 +112,7 @@ export default function Map() {
                         data.place.map((place, index) => (
                             <div key={index}>
                                 <MarkerF position={{ lat: place.lat, lng: place.lng }} visible={true}
-                                    onClick={() => { setActiveMarker(true); setPlace({ lat: place.lat, lng: place.lng }); setName(place.full_name); setPlaceId(place.place_id);}} />
+                                    onClick={() => { setActiveMarker(true); setPlace({ lat: place.lat, lng: place.lng }); setPlaceId(place.place_id);}} />
                             </div>
                         ))}
 

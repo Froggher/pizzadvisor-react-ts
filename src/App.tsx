@@ -7,6 +7,7 @@ import TestDatabase from "./TestDatabase/TestDatabase";
 import SignUp from "./User/SignUp";
 import About from "./About/About";
 import SignIn from "./User/SignIn";
+import DetailedPlace from "./DetailedPlace/DetailedPlace";
 
 
 function App() {
@@ -38,6 +39,10 @@ function App() {
         {
           path: "about",
           element: <About />,
+        },
+        {
+          path: "detailedplace/:place_id",
+          element: <DetailedPlace />,
         },
       ],
     },
