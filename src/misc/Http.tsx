@@ -1,3 +1,8 @@
+// Interfaccia per specificare i type estratti da queryKey della mutation
+export type latlng = {
+    lat: number,
+    lng: number,
+};
 /* I type della risposta dal nostro backend*/
 export interface BackEnd {
     message: string,
@@ -124,8 +129,16 @@ export async function getWeatherData(lat: number, lng: number) {
     }
     return await response.json();
 }
-// Interfaccia per specificare i type estratti da queryKey della mutation
-export type latlng = {
-    lat: number,
-    lng: number,
-};
+
+
+// Una fetch specifica per i effettuare get all'api del meteo
+export async function getCheck(id_place: string) {
+    const response = await fetch(
+        `http://localhost:5445/place/check/${id_place}`);
+    if (response.status !== 200) {
+        /* In caso di errore verrà mostrato quello che mandato express */
+        const resJson = await response.json()
+        throw new Error(resJson.message) // Così estraiamo il messaggio preciso
+    }
+    return await response.json();
+}

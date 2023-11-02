@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import usePlacesAutocomplete, { getGeocode, getLatLng, getDetails } from "use-places-autocomplete";
-import { BackEnd, GetFun, PostFun } from "../../misc/Http";
+import { BackEnd, GetFun, PostFun, getCheck } from "../../misc/Http";
 import { useState } from "react";
 //import Combobox from "react-widgets/Combobox";
 import '../SearchMap.css'
@@ -19,7 +19,7 @@ export default function Places({ setRestaurant, placeInfo }: PlacesProps) {
     console.log(placeId)
     const queryClient = useQueryClient();
 
-    const { data: check } = useQuery<BackEnd>(['placecheck', placeId], () => GetFun(`/place/check/${placeId}`),
+    const { data: check, isSuccess, isFetched } = useQuery<BackEnd>(['placecheck', placeId], () => GetFun(`/place/check/${placeId}`),
         {
             enabled: placeId !== '',
         });
@@ -54,14 +54,21 @@ export default function Places({ setRestaurant, placeInfo }: PlacesProps) {
     const handleSelect = async (val: string) => {
 
         // nome Localitá selezionata
-
+        queryClient.invalidateQueries({ queryKey: ['placecheck'] });
         clearSuggestions();
         //Qui prendo i valori che vengono passati quando si seleziona un suggerimento
         const results = await getGeocode({ address: val });
         setPlaceId(results[0].place_id)
+        
+
         const { lat, lng } = getLatLng(results[0]);
         console.log(results)
-        if (!check?.is_present) {
+        console.log(check)
+        console.log(check)
+    const fetcCheck =await getCheck(results[0].place_id)
+
+
+        if (!fetcCheck?.is_present) {
             console.log(check)
             // Evitiamo di effettuare la getDetails e fare meno chiamate api
             const detResults = await getDetails({ placeId: results[0].place_id })
@@ -89,6 +96,10 @@ export default function Places({ setRestaurant, placeInfo }: PlacesProps) {
 
         placeInfo(results[0].place_id)
         setRestaurant({ lat, lng });
+        queryClient.removeQueries({ queryKey:  ['placecheck'] });
+        queryClient.cancelQueries({ queryKey:  ['placecheck'] });
+        
+        
 
     }
 
