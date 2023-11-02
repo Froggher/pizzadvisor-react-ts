@@ -50,3 +50,135 @@ a {
   width: 100%;
   padding: 0.5rem;
 }
+
+
+
+
+/* Stile per il campo di input */
+.combobox-input {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+/* Stile per la lista dei suggerimenti */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+/* Stile per i suggerimenti */
+ul li {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  background-color: #f7f7f7;
+  color: #14161a;
+  transition: background-color 0.3s;
+}
+
+/* Stile per i suggerimenti al passaggio del mouse */
+ul li:hover {
+  background-color: #ddd;
+}
+
+
+
+/* CSS */
+.link-detail {
+  display: block;
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 0;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%; /* Imposta la larghezza al 100% */
+  box-sizing: border-box; /* Include il padding nella larghezza */
+}
+
+.link-detail:hover {
+  background-color: #0056b3;
+}
+
+
+
+
+
+
+
+
+
+
+/* PlaceData.css */
+
+/* Stile generale del componente PlaceData */
+.PlaceData {
+  padding: 20px;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 10px 0;
+}
+
+/* Stile per il nome del posto */
+.PlaceData h1 {
+  font-size: 24px;
+  margin: 0;
+}
+
+/* Stile per l'indirizzo del posto */
+.PlaceData h2 {
+  font-size: 16px;
+  margin: 0;
+  color: #888;
+}
+
+/* Stile per la fascia di prezzo */
+.PlaceData .price-level {
+  font-weight: bold;
+}
+
+/* Stile per il numero di telefono */
+.PlaceData .phone-number {
+  font-weight: bold;
+}
+
+/* Stile per il link al sito web */
+.PlaceData .website-link {
+  color: #007bff;
+  text-decoration: none;
+}
+
+/* Stile per l'orario di apertura */
+.PlaceData .opening-hours {
+  margin-top: 10px;
+}
+
+/* Stile per il rating di Google */
+.PlaceData .google-rating {
+  font-size: 20px;
+  color: #f00;
+  margin: 10px 0;
+}
+
+/* Stile per la temperatura corrente */
+.PlaceData .current-temperature {
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+/* Stile per l'immagine statica della mappa */
+.PlaceData .map-image {
+  max-width: 100%;
+  height: auto;
+  margin-top: 20px;
+}

@@ -54,7 +54,6 @@ function App() {
       <CookiesProvider>
         <RouterProvider router={router} />
       </CookiesProvider>
-      <h2>Questa é la homepage</h2>
     </>
   )
 }

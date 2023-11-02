@@ -1,15 +1,15 @@
 import { useMemo, useRef, useCallback, useState } from "react";
 import { GoogleMap, InfoWindowF, MarkerF } from "@react-google-maps/api";
 
-import { FaAnchor } from "react-icons/fa";
 import "./SearchMap.css";
 import Places from "./component/places";
-import SendReview from "./component/sendReview";
-import ViewReview from "./component/ViewReview";
 import Locate from "./component/locate";
 import { useQuery } from "@tanstack/react-query";
 import { BackEnd, GetFun } from "../misc/Http";
 import { Link } from "react-router-dom";
+import PlaceData from "../DetailedPlace/component/PlaceData";
+
+import './SearchMap.css';
 
 // /ttps://github.com/evolaric/rgm-example/blob/fd5ee514a6213c5df49d532de0d3892e4409886e/src/InfoWindowComponent.js
 // Ispirazione per le infobox
@@ -58,9 +58,11 @@ export default function Map() {
             <div className="controls">
                 {isLoading && <p>Caricamento luoghi in corso...</p>}
                 {isError && <p>Errore caricamento luoghi</p>}
+                
                 <Locate setUserPosition={(position) => {
                     mapRef.current?.panTo(position);
                 }}></Locate>
+                
                 <h2>Ristoranti e pizzerie</h2>
                 <Places setRestaurant={(position) => {
                     setPlace(position);
@@ -87,18 +89,13 @@ export default function Map() {
                                 {/* Serve per chiudere e riaprire la schermata di InfoWindowF */}
                                 {activeMarker && 
                                     <InfoWindowF position={place} options={{ maxWidth: 320 }} onCloseClick={() => { setActiveMarker(false); setPlace(undefined) }}>
-                                        <div>
-                                            <FaAnchor />
-                                            <h3>InfoWindow</h3>
 
                                             {placeId ?
                                                 <div>
-                                                    <ViewReview place_id={placeId} />
-                                                    <SendReview place_id={placeId} />
-                                                    <Link to={`/detailedplace/${placeId}`}>Ulteriori dettagli</Link>
+                                                    <PlaceData place_id={placeId}/>
+                                                    <Link to={`/detailedplace/${placeId}`} className="link-detail">Ulteriori dettagli</Link>
                                                 </div> : null}
 
-                                        </div>
                                     </InfoWindowF>
                                 }
                             </MarkerF>

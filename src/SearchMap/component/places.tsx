@@ -3,6 +3,7 @@ import usePlacesAutocomplete, { getGeocode, getLatLng, getDetails } from "use-pl
 import { BackEnd, GetFun, PostFun } from "../../misc/Http";
 import { useState } from "react";
 //import Combobox from "react-widgets/Combobox";
+import '../SearchMap.css'
 
 type PlacesProps = {
     // SetRestaraunt é un parametro perche quando gli passiamo il valore é { lat: 51.522993, lng: -0.1189555 }
@@ -17,12 +18,12 @@ export default function Places({ setRestaurant, placeInfo }: PlacesProps) {
     const [placeId, setPlaceId] = useState<string>('');
     console.log(placeId)
     const queryClient = useQueryClient();
-  
-        const { data:check } = useQuery<BackEnd>(['placecheck', placeId], () => GetFun(`/place/check/${placeId}`),
+
+    const { data: check } = useQuery<BackEnd>(['placecheck', placeId], () => GetFun(`/place/check/${placeId}`),
         {
             enabled: placeId !== '',
         });
-   
+
 
 
 
@@ -31,7 +32,7 @@ export default function Places({ setRestaurant, placeInfo }: PlacesProps) {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['places'] });
         },
-        
+
     });
 
 
@@ -47,20 +48,20 @@ export default function Places({ setRestaurant, placeInfo }: PlacesProps) {
         suggestions: { data },//Lo status se viene ricevuto o no qualche dato e infine i dati dei suggerimenti
         clearSuggestions,//Quando viene selezionato uno gli altri vanno via
     } = usePlacesAutocomplete();
-    
-    
+
+
     /* Restituisce le cordinate dei posti selezionati */
     const handleSelect = async (val: string) => {
-        
+
         // nome Localitá selezionata
-        
+
         clearSuggestions();
         //Qui prendo i valori che vengono passati quando si seleziona un suggerimento
         const results = await getGeocode({ address: val });
         setPlaceId(results[0].place_id)
         const { lat, lng } = getLatLng(results[0]);
-        
-        if (check?.is_present) {
+        console.log(results)
+        if (!check?.is_present) {
             console.log(check)
             // Evitiamo di effettuare la getDetails e fare meno chiamate api
             const detResults = await getDetails({ placeId: results[0].place_id })
@@ -98,18 +99,10 @@ export default function Places({ setRestaurant, placeInfo }: PlacesProps) {
         /* Qui é necessario cambiare la libreria per questo combobox */
         <div>
 
-            {/* <Combobox
-                value={value}
-                onChange={(value) => setValue(value)}
-                className="combobox-input"
-                placeholder="Inserisci indirizzo"
+            <input
+                type="text"
                 disabled={!ready}
-                data={data.map(e => (e.description))}
-                onSelect={handleSelect} /> */}
-
-            <input type="text"
-                disabled={!ready}
-                className="combobox-input"
+                className="combobox-input" // Aggiungi la classe CSS qui
                 placeholder="Inserisci indirizzo"
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
@@ -118,7 +111,14 @@ export default function Places({ setRestaurant, placeInfo }: PlacesProps) {
                 {
                     data.map(e => (
                         e.types.includes('restaurant') &&
-                        <li key={e.place_id} onClick={() => handleSelect(e.description)}>{e.description}</li>))
+                        <li
+                            key={e.place_id}
+                            onClick={() => handleSelect(e.description)}
+                            className="suggestion-item" // Aggiungi la classe CSS qui
+                        >
+                            {e.description}
+                        </li>
+                    ))
                 }
             </ul>
         </div>

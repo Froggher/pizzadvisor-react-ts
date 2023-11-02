@@ -1,0 +1,51 @@
+/* Stile generale per la Navbar */
+.NavBar {
+  background-color: #1a1a1a; /* Sfondo scuro */
+  color: #ffffff; /* Testo bianco */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 0;
+  margin: 0px;
+  font-family: 'Roboto', sans-serif;
+  border-bottom: 3px solid #a3a3ad;
+}
+
+/* Stile per il nome del sito */
+#site-title {
+  font-size: 2rem;
+  text-align: left;
+  margin: 0;
+  color: #ff0000; /* Colore rosso per il nome del sito */
+}
+
+/* Stile per i link di navigazione */
+.NavBar a {
+  color: #ffffff;
+  text-decoration: none;
+  margin: 0 10px;
+  font-size: 18px;
+  font-weight: bold;
+  position: relative;
+  transition: color 0.3s;
+  text-align: center;
+}
+
+/* Stile per i link "About" e "Map" posizionati al centro */
+.NavBar a.centered {
+  text-align: center;
+}
+
+/* Stile per il link attivo (colore rosso e bordo rosso) */
+.NavBar a.active:not(#site-title) {
+  color: #0400ff;
+  position: relative; /* Assicurati che la posizione sia relativa */
+  padding:14px 0;
+  border-bottom: 3px solid #0400ff;
+}
+
+/* Stile per i link di navigazione durante l'hover (rosso) */
+.NavBar a:not(#site-title):hover {
+  color: #0400ff;
+}
