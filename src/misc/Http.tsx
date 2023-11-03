@@ -14,6 +14,7 @@ export interface BackEnd {
         token: string,
         first_name: string,
         last_name: string,
+        follows: string,
     },
     review?: {
         first_name: string,
@@ -96,6 +97,36 @@ export async function PostFun(url: string, body: object, token?: string) {
     const response = await fetch(host.concat(url),
         {
             method: 'POST',
+            headers:
+            {
+                'Origin': 'http://localhost:5173',
+                'Content-Type': 'application/json',
+                'token': token
+            },
+            body: JSON.stringify(body),
+        }
+    );
+    if (response.status <= 199 || response.status >= 300) {
+        /* In caso di errore verrà mostrato quello che mandato express */
+        const resJson = await response.json()
+        console.log(resJson)
+        throw new Error(resJson.message)
+    }
+
+    console.log(token)
+    return await response.json();
+}
+
+
+
+export async function DeleteFun(url: string, token?: string, body?: object) {
+    if (typeof (token) === 'undefined') {
+        token = 'not provided'
+    }
+    const host = "http://localhost:5445"
+    const response = await fetch(host.concat(url),
+        {
+            method: 'DELETE',
             headers:
             {
                 'Origin': 'http://localhost:5173',

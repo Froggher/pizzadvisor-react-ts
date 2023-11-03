@@ -1,5 +1,5 @@
-import { useMemo, useRef, useCallback, useState } from "react";
-import { GoogleMap, InfoWindowF, MarkerF } from "@react-google-maps/api";
+import { useMemo, useRef, useCallback, useState, useEffect } from "react";
+import { GoogleMap, InfoWindowF, MarkerClusterer, MarkerClustererF, MarkerF } from "@react-google-maps/api";
 
 import "./SearchMap.css";
 import Places from "./component/places";
@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import PlaceData from "../DetailedPlace/component/PlaceData";
 
 import './SearchMap.css';
+
 
 // /ttps://github.com/evolaric/rgm-example/blob/fd5ee514a6213c5df49d532de0d3892e4409886e/src/InfoWindowComponent.js
 // Ispirazione per le infobox
@@ -26,12 +27,21 @@ type LatLngLiteral = google.maps.LatLngLiteral;
 type MapOption = google.maps.MapOptions;
 //type PlaceInfo = google.maps.GeocoderResult;
 
+type MapProps = {
+    position: LatLngLiteral;
+};
 
-export default function Map() {
-    const [place, setPlace] = useState<LatLngLiteral>();
+
+
+export default function Map({ position }: MapProps) {
+
+
+    type MyStructure = Object[];
+
+
+
+    const [placePosition, setPlacePosition] = useState<LatLngLiteral>();
     const [placeId, setPlaceId] = useState<string>();
-
-
 
     const [activeMarker, setActiveMarker] = useState<boolean>(false);
     const mapRef = useRef<GoogleMap>();
@@ -40,7 +50,8 @@ export default function Map() {
 
 
     //Effettua il calcolo di center con dependency array di []
-    const center = useMemo<LatLngLiteral>(() => ({ lat: 43, lng: 12.3 }), []);
+    // const center = useMemo<LatLngLiteral>(() => ({ lat: 43, lng: 12.3 }), [placePosition]);
+    const center = useMemo<LatLngLiteral>(() => (position), [position]);
     const options = useMemo<MapOption>(() => ({
         mapId: "c937efbfd83b24d7",
         disableDefaultUI: true,
@@ -53,24 +64,25 @@ export default function Map() {
     const onLoad = useCallback((map: any) => (mapRef.current = map), []);
 
 
+
     return (
         <div className="container">
             <div className="controls">
                 {isLoading && <p>Caricamento luoghi in corso...</p>}
                 {isError && <p>Errore caricamento luoghi</p>}
-                
+
                 <Locate setUserPosition={(position) => {
                     mapRef.current?.panTo(position);
                 }}></Locate>
-                
+
                 <h2>Ristoranti e pizzerie</h2>
                 <Places setRestaurant={(position) => {
-                    setPlace(position);
+                    setPlacePosition(position);
                     mapRef.current?.panTo(position);
                     setActiveMarker(true);
                 }}
                     placeInfo={(a) => { setPlaceId(a) }}
-                    
+
                 ></Places>
             </div>
 
@@ -83,18 +95,18 @@ export default function Map() {
                     onLoad={onLoad}
                     clickableIcons={false}
                 >
-                    {place &&
+                    {placePosition &&
                         <>
-                            <MarkerF position={place} visible={true} key={'owo'} onClick={() => setActiveMarker(true)}>
+                            <MarkerF position={placePosition} visible={true} key={'owo'} onClick={() => setActiveMarker(true)}>
                                 {/* Serve per chiudere e riaprire la schermata di InfoWindowF */}
-                                {activeMarker && 
-                                    <InfoWindowF position={place} options={{ maxWidth: 320 }} onCloseClick={() => { setActiveMarker(false); setPlace(undefined) }}>
+                                {activeMarker &&
+                                    <InfoWindowF position={placePosition} options={{ maxWidth: 320 }} onCloseClick={() => { setActiveMarker(false); setPlacePosition(undefined) }}>
 
-                                            {placeId ?
-                                                <div>
-                                                    <PlaceData place_id={placeId}/>
-                                                    <Link to={`/detailedplace/${placeId}`} className="link-detail">Ulteriori dettagli</Link>
-                                                </div> : null}
+                                        {placeId ?
+                                            <div>
+                                                <PlaceData place_id={placeId} />
+                                                <Link to={`/detailedplace/${placeId}`} className="link-detail">Ulteriori dettagli</Link>
+                                            </div> : null}
 
                                     </InfoWindowF>
                                 }
@@ -105,13 +117,15 @@ export default function Map() {
 
 
 
-                    {(isSuccess && Array.isArray(data.place)) &&
-                        data.place.map((place, index) => (
-                            <div key={index}>
-                                <MarkerF position={{ lat: place.lat, lng: place.lng }} visible={true}
-                                    onClick={() => { setActiveMarker(true); setPlace({ lat: place.lat, lng: place.lng }); setPlaceId(place.place_id);}} />
-                            </div>
+
+                    {((isSuccess && Array.isArray(data.place)) && data.place) &&
+                        data.place.map((place: any, index: number) => (
+                            <MarkerF key={index} position={{ lat: place.lat, lng: place.lng }} visible={true} 
+                                onClick={() => { setActiveMarker(true); setPlacePosition({ lat: place.lat, lng: place.lng }); setPlaceId(place.place_id); }} />
+
                         ))}
+
+
 
                 </GoogleMap>
             </div>

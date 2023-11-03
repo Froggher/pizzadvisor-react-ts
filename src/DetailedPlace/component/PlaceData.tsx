@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { BackEnd, GetFun, Weather, getWeatherData, latlng } from "../../misc/Http";
+import Follow from "./follow";
 
 
 type PlaceDataProps = {
@@ -45,7 +46,7 @@ export default function PlaceData({ place_id, more_details }: PlaceDataProps) {
         // Questo serve perché map si puó usare solo con gli array
         // values: Returns an array of values of the enumerable properties of an object
         //const reviews = Array.isArray(data.review) ? data.review : Object.values(data.review);
-        console.log(JSON.parse(data.det_place.opening_hours))
+        //console.log(JSON.parse(data.det_place.opening_hours))
         const json_open_hours = parseCheck(data.det_place.opening_hours)
         console.log(weather)
         console.log();
@@ -82,13 +83,13 @@ export default function PlaceData({ place_id, more_details }: PlaceDataProps) {
 
                         {data.det_place.google_rating ? <h3 className="google-rating">Rating di Google: {data.det_place.google_rating}</h3> : <h3>Rating di Google: non disponibile</h3>}
 
+                        <Follow place_id={data.det_place.place_id} />
                         {weather ? <p className="current-temperature">{weather?.current.temperature_2m} Cº</p> : <p>⏳</p>}
 
                         <img src={`https://maps.googleapis.com/maps/api/staticmap?center=${data.det_place.lat},${data.det_place.lng}
                         &zoom=13&size=600x300&maptype=roadmap&markers=color:red%7Clabel:A%7C${data.det_place.lat},${data.det_place.lng}
                         &key=${import.meta.env.VITE_MAPS_API}`} alt="Mappa del luogo"
                             className="map-image" />
-
                     </div>
                 </div>
             )

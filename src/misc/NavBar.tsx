@@ -28,12 +28,13 @@ export default function NavBar() {
             <NavLink to="map" id="site-title">PizzAdvisor</NavLink>
           </div>
           <div >
+            <NavLink to="home">Home</NavLink>
             <NavLink to="map" >Map</NavLink>
             <NavLink to="testdatabase">Testdata</NavLink>
             <NavLink to="about">About</NavLink>
             <NavLink to="signin">SignIn</NavLink>
             <NavLink to="signup">SignUp</NavLink>
-            <NavLink to="signup">{cookies.user?.first_name}</NavLink>
+            <NavLink to="signout">{cookies.user?.first_name}</NavLink>
           </div>
         </nav>
       </header>

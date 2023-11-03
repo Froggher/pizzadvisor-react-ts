@@ -8,10 +8,18 @@ import SignUp from "./User/SignUp";
 import About from "./About/About";
 import SignIn from "./User/SignIn";
 import DetailedPlace from "./DetailedPlace/DetailedPlace";
+import Home from "./Home/Home";
+import { Libraries, useLoadScript } from "@react-google-maps/api";
+import SignOut from "./User/SignOut";
 
 
+const libraries: Libraries = ['places']
 function App() {
-
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: import.meta.env.VITE_MAPS_API,
+    libraries: libraries,
+    //language: "IT",
+  });
 
   /* Inizializzazione react router */
   const router = createBrowserRouter([
@@ -41,6 +49,14 @@ function App() {
           element: <About />,
         },
         {
+          path: "home",
+          element: <Home />,
+        },
+        {
+          path: "signout",
+          element: <SignOut />,
+        },
+        {
           path: "detailedplace/:place_id",
           element: <DetailedPlace />,
         },
@@ -48,7 +64,7 @@ function App() {
     },
   ]);
 
-
+  if (!isLoaded) return <div>Caricamento librerie api...</div>;
   return (
     <>
       <CookiesProvider>

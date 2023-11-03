@@ -1,7 +1,6 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import usePlacesAutocomplete, { getGeocode, getLatLng, getDetails } from "use-places-autocomplete";
-import { BackEnd, GetFun, PostFun, getCheck } from "../../misc/Http";
-import { useState } from "react";
+import { BackEnd, PostFun, getCheck } from "../../misc/Http";
 //import Combobox from "react-widgets/Combobox";
 import '../SearchMap.css'
 
@@ -15,17 +14,8 @@ type PlacesProps = {
 
 
 export default function Places({ setRestaurant, placeInfo }: PlacesProps) {
-    const [placeId, setPlaceId] = useState<string>('');
-    console.log(placeId)
+
     const queryClient = useQueryClient();
-
-    const { data: check, isSuccess, isFetched } = useQuery<BackEnd>(['placecheck', placeId], () => GetFun(`/place/check/${placeId}`),
-        {
-            enabled: placeId !== '',
-        });
-
-
-
 
     const sendPlaceMutation = useMutation<BackEnd, unknown, object>({
         mutationFn: (placeDetails) => PostFun(`/place/post`, placeDetails),
@@ -34,11 +24,6 @@ export default function Places({ setRestaurant, placeInfo }: PlacesProps) {
         },
 
     });
-
-
-
-
-
 
     /* Questi sono i dati suggeriti che vengono presi da usePlacesAutocomplete */
     const {
@@ -54,22 +39,15 @@ export default function Places({ setRestaurant, placeInfo }: PlacesProps) {
     const handleSelect = async (val: string) => {
 
         // nome Localitá selezionata
-        queryClient.invalidateQueries({ queryKey: ['placecheck'] });
         clearSuggestions();
         //Qui prendo i valori che vengono passati quando si seleziona un suggerimento
         const results = await getGeocode({ address: val });
-        setPlaceId(results[0].place_id)
-        
 
         const { lat, lng } = getLatLng(results[0]);
-        console.log(results)
-        console.log(check)
-        console.log(check)
-    const fetcCheck =await getCheck(results[0].place_id)
+        const fetcCheck = await getCheck(results[0].place_id)
 
 
         if (!fetcCheck?.is_present) {
-            console.log(check)
             // Evitiamo di effettuare la getDetails e fare meno chiamate api
             const detResults = await getDetails({ placeId: results[0].place_id })
             console.log("check")
@@ -96,14 +74,8 @@ export default function Places({ setRestaurant, placeInfo }: PlacesProps) {
 
         placeInfo(results[0].place_id)
         setRestaurant({ lat, lng });
-        queryClient.removeQueries({ queryKey:  ['placecheck'] });
-        queryClient.cancelQueries({ queryKey:  ['placecheck'] });
-        
-        
 
     }
-
-
 
 
     return (

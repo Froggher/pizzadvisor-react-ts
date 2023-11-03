@@ -1,17 +1,31 @@
 import { Libraries, useLoadScript } from "@react-google-maps/api";
+
 import Map from "./Map";
+import { useLocation } from "react-router-dom";
 
 
-const libraries: Libraries = ['places']
+
+
 export default function SearchMap() {
-  const { isLoaded } = useLoadScript({
-    googleMapsApiKey: import.meta.env.VITE_MAPS_API,
-    libraries: libraries,
-    //language: "IT",
-  });
 
-  if (!isLoaded) return <div>Caricamento mappa...</div>;
-  return <Map />;
+  /* Prendiamo i props che vengono da useNavigate */
+  const location = useLocation();
+  const propsRicevute: google.maps.LatLngLiteral = location.state;
+
+  
+  /* Valore di default per la posizione iniziale */
+  if (!propsRicevute) {
+    return (
+      <div>
+        <Map position={{ lat: 43, lng: 12.3 }} />
+      </div>
+    );
+  }
+  return (
+    <div>
+      <Map position={propsRicevute} />
+    </div>
+  );
 }
 
 
