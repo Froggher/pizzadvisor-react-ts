@@ -41,39 +41,44 @@ export default function Places({ setRestaurant, placeInfo }: PlacesProps) {
         // nome Localitá selezionata
         clearSuggestions();
         //Qui prendo i valori che vengono passati quando si seleziona un suggerimento
-        const results = await getGeocode({ address: val });
-
-        const { lat, lng } = getLatLng(results[0]);
-        const fetcCheck = await getCheck(results[0].place_id)
+        try {
+            const results = await getGeocode({ address: val });
 
 
-        if (!fetcCheck?.is_present) {
-            // Evitiamo di effettuare la getDetails e fare meno chiamate api
-            const detResults = await getDetails({ placeId: results[0].place_id })
-            console.log("check")
-            if (typeof detResults !== 'string') {
-                console.log(detResults.formatted_address);
-                console.log('detResults.opening_hours?.isOpen');
-                const placeDetails = {
-                    place_id: detResults.place_id,
-                    full_name: val,
-                    lat: lat,
-                    lng: lng,
-                    only_name: detResults.name,
-                    formatted_address: detResults.formatted_address,
-                    opening_hours: detResults.opening_hours?.weekday_text,
-                    formatted_phone_number: detResults.formatted_phone_number,
-                    website: detResults.website,
-                    price_level: detResults.price_level,
-                    google_rating: detResults.rating,
-                };
-                sendPlaceMutation.mutate(placeDetails);
+            const { lat, lng } = getLatLng(results[0]);
+            const fetcCheck = await getCheck(results[0].place_id)
+
+            if (!fetcCheck?.is_present) {
+                // Evitiamo di effettuare la getDetails e fare meno chiamate api
+                const detResults = await getDetails({ placeId: results[0].place_id })
+                console.log("check")
+                if (typeof detResults !== 'string') {
+                    console.log(detResults.formatted_address);
+                    console.log('detResults.opening_hours?.isOpen');
+                    const placeDetails = {
+                        place_id: detResults.place_id,
+                        full_name: val,
+                        lat: lat,
+                        lng: lng,
+                        only_name: detResults.name,
+                        formatted_address: detResults.formatted_address,
+                        opening_hours: detResults.opening_hours?.weekday_text,
+                        formatted_phone_number: detResults.formatted_phone_number,
+                        website: detResults.website,
+                        price_level: detResults.price_level,
+                        google_rating: detResults.rating,
+                    };
+                    sendPlaceMutation.mutate(placeDetails);
+                }
+                console.log(detResults)
             }
-            console.log(detResults)
-        }
 
-        placeInfo(results[0].place_id)
-        setRestaurant({ lat, lng });
+            placeInfo(results[0].place_id)
+            setRestaurant({ lat, lng });
+        } catch (error) {
+            console.log(error);
+
+        }
 
     }
 

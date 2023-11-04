@@ -1,4 +1,5 @@
 import usePlacesAutocomplete, { getGeocode, getLatLng } from "use-places-autocomplete";
+import { useState } from 'react';
 //import Combobox from "react-widgets/Combobox";
 
 
@@ -13,6 +14,7 @@ type PlacesProps = {
 
 export default function SearchPosition({ setPosition }: PlacesProps) {
 
+    const [isSelected, setIsSelected] = useState<boolean>(false);
 
     /* Questi sono i dati suggeriti che vengono presi da usePlacesAutocomplete */
     const {
@@ -32,9 +34,9 @@ export default function SearchPosition({ setPosition }: PlacesProps) {
         //Qui prendo i valori che vengono passati quando si seleziona un suggerimento
         const results = await getGeocode({ address: val });
         const { lat, lng } = getLatLng(results[0]);
-
+        setValue(val);
         setPosition({ lat, lng });
-
+        setIsSelected(true);
     }
 
 
@@ -47,8 +49,10 @@ export default function SearchPosition({ setPosition }: PlacesProps) {
                 disabled={!ready}
                 placeholder="Inserisci indirizzo"
                 value={value}
-                onChange={(e) => setValue(e.target.value)}
+                onChange={(e) => {setValue(e.target.value);
+                setIsSelected(false);}}
             />
+            {!isSelected &&
             <ul>
                 {
                     data.map(e => (
@@ -62,6 +66,7 @@ export default function SearchPosition({ setPosition }: PlacesProps) {
                     ))
                 }
             </ul>
+            }
         </div>
     )
 

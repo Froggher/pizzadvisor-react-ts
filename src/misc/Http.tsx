@@ -15,6 +15,7 @@ export interface BackEnd {
         first_name: string,
         last_name: string,
         follows: string,
+        is_mod: string,
     },
     review?: {
         first_name: string,
@@ -22,7 +23,6 @@ export interface BackEnd {
         review_object: string,
         review_body: string,
         created: Date,
-        modified: boolean,
     },
     place?: {
         place_id: string,

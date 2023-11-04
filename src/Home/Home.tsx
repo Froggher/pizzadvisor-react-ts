@@ -43,7 +43,9 @@ export default function Home() {
         const followed_place = Array.isArray(data.place) ? data.place : Object.values(data.place);
         console.log(followed_place)
         return (
-            <>
+            <div>
+                <SearchPosition setPosition={(a) => { setPlacePosition(a) }} />
+                <Link to="/map" state={placePosition}>Cerca su Map</Link>
                 {followed_place.map((map, index) => (
                     <div key={index}>
 
@@ -53,11 +55,9 @@ export default function Home() {
                         <h3>{map.lng}</h3> */}
                         {/* <h3>{map.place_id}</h3> */}
                         <Link to={`/detailedplace/${map.place_id}`}>Ulteriori dettagli</Link>
-
                     </div>
-
                 ))}
-            </>
+            </div>
         )
     }
 
