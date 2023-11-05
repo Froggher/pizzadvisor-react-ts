@@ -10,9 +10,10 @@ export default function ViewReview({ place_id }: ViewReviewProps) {
   const [cookies] = useCookies<'user', BackEnd>(["user"]);
   const queryClient = useQueryClient();
 
+  // Query per la visualizzazione delle recensioni relative al luogo dato da place_id
   const { data, error, isLoading } = useQuery<BackEnd>(['review', place_id], () => GetFun(`/review/get/${place_id}`));
 
-
+  // Type dei dati che vengono inviati per effettuare il delete della review
   interface DelReview {
     review_id: string
   }
@@ -24,10 +25,10 @@ export default function ViewReview({ place_id }: ViewReviewProps) {
     }
   });
 
+  // Quando si seleziona di eliminare la review
   const handleDeleteReview = (review_id: string, e: React.SyntheticEvent) => {
     e.preventDefault();
-    const body = { review_id: review_id }
-    deleteReviewMutation.mutate(body);
+    deleteReviewMutation.mutate({ review_id: review_id });
   }
 
   if (isLoading) {
@@ -40,7 +41,7 @@ export default function ViewReview({ place_id }: ViewReviewProps) {
 
   }
 
-
+  // Se ci sono delle review vengono mostrate qui
   if (data && data.review) {
     // Serve per controllare se i dati arrivano sottoforma di array o di oggetto singolo
     // Questo serve perché map si puó usare solo con gli array
@@ -58,7 +59,8 @@ export default function ViewReview({ place_id }: ViewReviewProps) {
             <p>Corpo: {review.review_body}</p>
             <p>Review_id: {review.review_id}</p>
             <p>Data di creazione: {new Date(review.created).toLocaleString()}</p>
-            {cookies.user?.is_mod ?
+           {/* Se l'utente é moderatore puó rimuovere la review */}
+           {cookies.user?.is_mod ?
               <input type="submit" value="Rimuovi recensione" 
               onClick={(e) => handleDeleteReview(review.review_id, e)} disabled={deleteReviewMutation.isLoading}/> : null}
             {(deleteReviewMutation.error) instanceof Error && <p>{deleteReviewMutation.error.message}</p>}

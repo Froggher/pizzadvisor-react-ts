@@ -3,7 +3,8 @@ export type latlng = {
     lat: number,
     lng: number,
 };
-/* I type della risposta dal nostro backend*/
+
+/* I types della risposta dal nostro backend*/
 export interface BackEnd {
     message: string,
     is_present?: boolean,
@@ -80,15 +81,13 @@ export async function GetFun(url: string, token?: string) {
     if (response.status <= 199 || response.status >= 300) {
         /* In caso di errore verrà mostrato quello che mandato express */
         const resJson = await response.json()
-        console.log(resJson)
+        console.log(resJson);
         throw new Error(resJson.message)
     }
-
-    console.log(token)
     return await response.json();
 }
 
-
+/* Funzione per effettuare post */
 export async function PostFun(url: string, body: object, token?: string) {
     if (typeof (token) === 'undefined') {
         token = 'not provided'
@@ -108,17 +107,15 @@ export async function PostFun(url: string, body: object, token?: string) {
     );
     if (response.status <= 199 || response.status >= 300) {
         /* In caso di errore verrà mostrato quello che mandato express */
-        const resJson = await response.json()
-        console.log(resJson)
-        throw new Error(resJson.message)
+        const resJson = await response.json();
+        console.log(resJson);
+        throw new Error(resJson.message);
     }
-
-    console.log(token)
     return await response.json();
 }
 
 
-
+/* Funzione Delete */
 export async function DeleteFun(url: string, token?: string, body?: object) {
     if (typeof (token) === 'undefined') {
         token = 'not provided'
@@ -139,11 +136,10 @@ export async function DeleteFun(url: string, token?: string, body?: object) {
     if (response.status <= 199 || response.status >= 300) {
         /* In caso di errore verrà mostrato quello che mandato express */
         const resJson = await response.json()
-        console.log(resJson)
+        console.log(resJson);
         throw new Error(resJson.message)
     }
 
-    console.log(token)
     return await response.json();
 }
 
@@ -162,7 +158,7 @@ export async function getWeatherData(lat: number, lng: number) {
 }
 
 
-// Una fetch specifica per i effettuare get all'api del meteo
+// Una fetch specifica per i effettuare il controllo della presenza del luogo
 export async function getCheck(id_place: string) {
     const response = await fetch(
         `http://localhost:5445/place/check/${id_place}`);

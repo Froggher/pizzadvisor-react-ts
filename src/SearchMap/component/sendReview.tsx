@@ -8,13 +8,12 @@ type SendReviewProps = {
 };
 
 export default function SendReview({ place_id }: SendReviewProps) {
+  
   const [cookies] = useCookies<'user', BackEnd>(["user"]);
-  // interface Review {
-  //   review_object: string;
-  //   review_body: string;
-  // }
+
   const queryClient = useQueryClient();
 
+  // Mutation che manda i dati per postare la nuova review
   const sendReviewMutation = useMutation<BackEnd, unknown, object>({
     mutationFn: (form) => PostFun(`/review/post/${place_id}`, form, cookies.user?.token),
     // Invalidiamo la query delle review in modo da aggiornarle con la nostra nuova recensione

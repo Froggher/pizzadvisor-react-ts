@@ -7,16 +7,15 @@ import '../SearchMap.css'
 type PlacesProps = {
     // SetRestaraunt é un parametro perche quando gli passiamo il valore é { lat: 51.522993, lng: -0.1189555 }
     setRestaurant: (position: google.maps.LatLngLiteral) => void;
-    // PlaceName é sempre un parametro ma perché gli passiamo val che é il parametro della funzione handleSelect
-
     placeInfo: (info: string) => void;
 };
 
 
 export default function Places({ setRestaurant, placeInfo }: PlacesProps) {
-
+    // Richiamo il context della use querry
     const queryClient = useQueryClient();
 
+    // In caso viene selezionato un posto non salvato nel database con questa mutation verra aggiunto
     const sendPlaceMutation = useMutation<BackEnd, unknown, object>({
         mutationFn: (placeDetails) => PostFun(`/place/post`, placeDetails),
         onSuccess: () => {
@@ -35,26 +34,24 @@ export default function Places({ setRestaurant, placeInfo }: PlacesProps) {
     } = usePlacesAutocomplete();
 
 
-    /* Restituisce le cordinate dei posti selezionati */
+    /* Si occupa di gestire un luogo selezionato */
     const handleSelect = async (val: string) => {
-
-        // nome Localitá selezionata
         clearSuggestions();
-        //Qui prendo i valori che vengono passati quando si seleziona un suggerimento
+        // Try catch perché ci sono funzioni con promesse
         try {
+            // Ottiene dati principali della location
             const results = await getGeocode({ address: val });
-
-
+            // Otteniamo oggetto contente lat e lng
             const { lat, lng } = getLatLng(results[0]);
-            const fetcCheck = await getCheck(results[0].place_id)
 
-            if (!fetcCheck?.is_present) {
-                // Evitiamo di effettuare la getDetails e fare meno chiamate api
+            /* Qui mandiamo una semplice fetch al database per capire se il luogo selezionato
+            é giá stato salvato o no dal database */
+            const fetchCheck = await getCheck(results[0].place_id)
+
+            if (!fetchCheck?.is_present) {
+                // Dato che non é salvato otteniamo ulteriori dati del luogo selezionato
                 const detResults = await getDetails({ placeId: results[0].place_id })
-                console.log("check")
                 if (typeof detResults !== 'string') {
-                    console.log(detResults.formatted_address);
-                    console.log('detResults.opening_hours?.isOpen');
                     const placeDetails = {
                         place_id: detResults.place_id,
                         full_name: val,
@@ -68,11 +65,11 @@ export default function Places({ setRestaurant, placeInfo }: PlacesProps) {
                         price_level: detResults.price_level,
                         google_rating: detResults.rating,
                     };
+                    // La mutate per salvare i nuovi dettagli del place
                     sendPlaceMutation.mutate(placeDetails);
                 }
-                console.log(detResults)
             }
-
+            // Effettuiamo il return di due props
             placeInfo(results[0].place_id)
             setRestaurant({ lat, lng });
         } catch (error) {
@@ -102,7 +99,7 @@ export default function Places({ setRestaurant, placeInfo }: PlacesProps) {
                         <li
                             key={e.place_id}
                             onClick={() => handleSelect(e.description)}
-                            className="suggestion-item" // Aggiungi la classe CSS qui
+                            className="suggestion-item"
                         >
                             {e.description}
                         </li>

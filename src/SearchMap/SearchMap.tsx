@@ -1,5 +1,3 @@
-import { Libraries, useLoadScript } from "@react-google-maps/api";
-
 import Map from "./Map";
 import { useLocation } from "react-router-dom";
 
@@ -17,6 +15,7 @@ export default function SearchMap() {
   if (!propsRicevute) {
     return (
       <div>
+        {/* Il valore di default corrisponde a Perugia */}
         <Map position={{ lat: 43, lng: 12.3 }} />
       </div>
     );

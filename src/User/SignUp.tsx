@@ -65,7 +65,7 @@ export default function SignUp() {
         //Evitiamo di far ricaricare la pagina
         e.preventDefault();
         
-        //In caso il controllo non viene superato non viene effettua la mutate
+        //In caso il controllo delle password non viene superato non viene effettua la mutate
         if (!formCheck.disabled) {
             const { psw_check, ...prevForm } = form
             loginMutation.mutate(prevForm);
@@ -112,7 +112,7 @@ export default function SignUp() {
                 </div>
                 {formCheck.disabled && <h2>{formCheck.display_message}</h2>}
                 <div>
-                    <input type="submit" value="Login" disabled={loginMutation.isLoading}/>
+                    <input type="submit" value="Crea account" disabled={loginMutation.isLoading}/>
                 </div>
             </form>
             <div>

@@ -14,10 +14,11 @@ export default function PlaceData({ place_id, more_details }: PlaceDataProps) {
 
     let cost: Array<string> = ["super-economico", 'economico', "moderato", "costoso", "molto costoso"];
 
+    // Query per mostrare tutti i dettagli del luogo (dettagli provenienti dal database)
     const { data, error, isLoading } = useQuery<BackEnd>(['detailedplace', place_id], () => GetFun(`/place/detailed/${place_id}`));
 
 
-
+    // Query che si occupa di effettuare una get all'api del meteo
     const { data: weather } = useQuery<Weather>(['weather', { lat: data?.det_place?.lat, lng: data?.det_place?.lng }],
         (key) => {
             const latlng = key.queryKey[1] as latlng; // Estrarre il tipo latlng dall'array
@@ -38,15 +39,12 @@ export default function PlaceData({ place_id, more_details }: PlaceDataProps) {
         return <div>An error occurred: {error.message} ErrorName: {error.name}</div>
 
     }
-    // https://api.open-meteo.com/v1/forecast?latitude=43.2065&longitude=12.0747&current_weather=true&timezone=Europe%2FBerlin
-    //https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&current=temperature_2m,relativehumidity_2m,weathercode,windspeed_10m
 
+    // Se i dati sono arrivati...
     if (data && data.det_place) {
         // Serve per controllare se i dati arrivano sottoforma di array o di oggetto singolo
         // Questo serve perché map si puó usare solo con gli array
         // values: Returns an array of values of the enumerable properties of an object
-        //const reviews = Array.isArray(data.review) ? data.review : Object.values(data.review);
-        //console.log(JSON.parse(data.det_place.opening_hours))
         const json_open_hours = parseCheck(data.det_place.opening_hours)
         console.log(weather)
         console.log();

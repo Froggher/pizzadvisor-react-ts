@@ -14,6 +14,8 @@ import SignOut from "./User/SignOut";
 
 
 const libraries: Libraries = ['places']
+
+/* Qui vengono subito caricati i dati dell'api per la gestione delle mappe e autocomplete */
 function App() {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: import.meta.env.VITE_MAPS_API,
@@ -63,7 +65,7 @@ function App() {
       ],
     },
   ]);
-
+/* Diamo il tempo mostrando il caricamento delle librerie api */
   if (!isLoaded) return <div>Caricamento librerie api...</div>;
   return (
     <>

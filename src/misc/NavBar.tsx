@@ -9,23 +9,25 @@ import './misc.css'
 export default function NavBar() {
 
   
-  /* Andrebbe messo un typeguard */
+  // Navigate ci consente di muoverci tra le varie routes create
   const navigate: NavigateFunction = useNavigate();
   let location = useLocation();
 
   /* Serve per riportare l'utente sulla home page in caso andasse sulla root */
   useEffect(() => {
     if (location.pathname === '/') {
-      navigate('map');
+      navigate('home');
     }
   }, [location]);
+
   const [cookies] = useCookies<'user', BackEnd>(["user"]);
+
   return (
     <div>
       <header>
         <nav className="NavBar">
           <div>
-            <NavLink to="map" id="site-title">PizzAdvisor</NavLink>
+            <NavLink to="home" id="site-title">PizzAdvisor</NavLink>
           </div>
           <div >
             <NavLink to="home">Home</NavLink>
@@ -34,6 +36,7 @@ export default function NavBar() {
             <NavLink to="about">About</NavLink>
             <NavLink to="signin">SignIn</NavLink>
             <NavLink to="signup">SignUp</NavLink>
+            {/* Questa opzione comparirá solamente se l'utente é autenticato */}
             <NavLink to="signout">{cookies.user?.first_name}</NavLink>
           </div>
         </nav>

@@ -3,8 +3,10 @@ import { Link } from "react-router-dom";
 
 
 export default function SignOut() {
-
+    /* Chiamao l'hook dei cookies */
     const [cookies, , removeCookie] = useCookies(["user"]);
+    
+    /* Se l'utente é autenticato visulizzerá questi contenuti */
     if (cookies.user) {
         return (
             <>
@@ -12,7 +14,7 @@ export default function SignOut() {
                 <input type="submit" value="LogOut" onClick={() => removeCookie("user")} />
             </>
         )
-
+    /* Se l'utente non é autenticato visulizzerá questi contenuti */
     } else {
         return (
             <>

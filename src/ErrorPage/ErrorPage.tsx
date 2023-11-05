@@ -19,12 +19,7 @@ export default function ErrorPage() {
     }
 
 
-    //const isErrorMessage = (value: unknown): value is error => !!value && typeof value === 'object' && 'message' in value && typeof (value as Object) === 'string'
-
     const error: unknown = useRouteError();
-    //console.error(error);
-
-
 
     if (isErrorMessage(error)) {
         console.log(isErrorMessage(error))
@@ -41,7 +36,7 @@ export default function ErrorPage() {
 
         return (
             <>
-                <h2>Errore non definito nella lettura errore</h2>
+                <h2>Errore generico...</h2>
                 <input type="submit" value="LogOut" onClick={() => removeCookie("user")} />
             </>
         )

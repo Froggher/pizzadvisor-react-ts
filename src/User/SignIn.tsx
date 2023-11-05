@@ -3,14 +3,15 @@ import { BackEnd, PostFun } from "../misc/Http";
 
 import { useCookies } from "react-cookie";
 export default function SignIn() {
+    /* Importo l'hook dei cookie */
     const [, setCookie, removeCookie] = useCookies<'user', BackEnd>(["user"]);
-    
-    //Creiamo la data per mettere quando scade il token
+
+    // Creiamo una costante data
     const currentDate = new Date();
     // Impostiamo dal giorno di oggi e aggiungiamo 30 giorni
     currentDate.setDate(currentDate.getDate() + 30);
 
-    
+    /* Utile per definire il type dell'argomento della mutationfn */
     interface UserLogin {
         email: string
         psw: string
@@ -24,14 +25,8 @@ export default function SignIn() {
     });
 
 
-    // Se i dati di login vengono salavati nel cookie
-    if (loginMutation.isSuccess) {
-        console.log('ciao')
 
-
-    }
-
-    //La variabile e corrisponde ai valori event contenuti nel <form>
+    //Il parametro 'e' corrisponde ai valori event contenuti nel <form>
     const handleSubmit = (e: React.SyntheticEvent) => {
         //Evitiamo di far ricaricare la pagina
         e.preventDefault();
@@ -40,12 +35,12 @@ export default function SignIn() {
             email: { value: string };
             password: { value: string };
         };
-        //Creaiamo l'object che verrá mandato come body della post
+        //Creaiamo l'object che verrá mandato come body della post (deve corrispondere a UserLogin)
         const form = {
             email: target.email.value,
             psw: target.password.value,
         };
-
+        // Eseguiamo la mutate
         loginMutation.mutate(form);
     };
 

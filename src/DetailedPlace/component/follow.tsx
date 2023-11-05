@@ -2,7 +2,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { BackEnd, DeleteFun, GetFun, PostFun } from "../../misc/Http";
 import { useCookies } from "react-cookie";
 import { Link } from "react-router-dom";
-import Map from "../../SearchMap/Map";
 
 
 type FollowProps = {
@@ -15,7 +14,7 @@ export default function Follow({ place_id }: FollowProps) {
     const [cookies] = useCookies<'user', BackEnd>(["user"]);
     const queryClient = useQueryClient();
 
-
+    // Get che si occupa di vederre lo stato del follow dato il place id
     const { data, error, isLoading, isSuccess } = useQuery<BackEnd>(['checkfollow', place_id],
         () => GetFun(`/follow/check/${place_id}`, cookies.user?.token),
         {
@@ -27,7 +26,7 @@ export default function Follow({ place_id }: FollowProps) {
         place_id: string
     }
 
-
+    // Aggiunge il follow relativo al place id
     const addFollowMutation = useMutation<BackEnd, unknown, Follow>({
         mutationFn: (form) => PostFun('/follow/post', form, cookies.user?.token),
         onSuccess: () => {
@@ -35,7 +34,7 @@ export default function Follow({ place_id }: FollowProps) {
             queryClient.invalidateQueries({ queryKey: ['showfollows'] });
         }
     });
-
+    // Rimuove il follow relativo al place id
     const deleteFollowMutation = useMutation<BackEnd, unknown, Follow>({
         mutationFn: (form) => DeleteFun('/follow/delete', cookies.user?.token, form),
         onSuccess: () => {

@@ -6,14 +6,12 @@ import { useState } from 'react';
 type PlacesProps = {
     // SetRestaraunt é un parametro perche quando gli passiamo il valore é { lat: 51.522993, lng: -0.1189555 }
     setPosition: (position: google.maps.LatLngLiteral) => void;
-    // PlaceName é sempre un parametro ma perché gli passiamo val che é il parametro della funzione handleSelect
-
-
+    
 };
 
 
 export default function SearchPosition({ setPosition }: PlacesProps) {
-
+    // Serve per salvare il suggerimento ottentuto dalla use complete
     const [isSelected, setIsSelected] = useState<boolean>(false);
 
     /* Questi sono i dati suggeriti che vengono presi da usePlacesAutocomplete */
@@ -59,7 +57,6 @@ export default function SearchPosition({ setPosition }: PlacesProps) {
                         <li
                             key={e.place_id}
                             onClick={() => handleSelect(e.description)}
-
                         >
                             {e.description}
                         </li>
