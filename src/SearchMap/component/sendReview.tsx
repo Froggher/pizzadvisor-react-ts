@@ -3,6 +3,8 @@ import { BackEnd, PostFun } from "../../misc/Http";
 import { useCookies } from "react-cookie";
 import { Link } from "react-router-dom";
 
+import './review.css'
+
 type SendReviewProps = {
   place_id: string;
 };
@@ -44,7 +46,7 @@ export default function SendReview({ place_id }: SendReviewProps) {
   // Controlla se l'utente ha effettuato l'accesso. In caso contrario potrá usare il link
   if (!cookies.user?.email) {
     return (
-      <div>
+      <div className="review-form">
         <h3>Login necessario...</h3>
         <Link to="/signin">Effettua il login.</Link>
       </div>
@@ -53,6 +55,7 @@ export default function SendReview({ place_id }: SendReviewProps) {
 
   return (
     <div className="review-form">
+      <h1>Scrivi una recensione</h1>
       {cookies.user ? (
         <form onSubmit={handleSubmit}>
           <div>
@@ -85,12 +88,7 @@ export default function SendReview({ place_id }: SendReviewProps) {
             />
           </div>
         </form>
-      ) : (
-        <div>
-          <h3>Login necessario...</h3>
-          <Link to="/signin">Effettua il login.</Link>
-        </div>
-      )}
+      ) : null }
     </div>
   );
 };

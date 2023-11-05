@@ -56,10 +56,10 @@ export default function ViewReview({ place_id }: ViewReviewProps) {
           <div key={index} className="review-item">
             <h3>Recensione #{index + 1}</h3>
             <p>{review.first_name} {review.last_name}</p>
-            <p><textarea className="fixed-textarea" readOnly>{review.review_object}</textarea></p>
-            <p><textarea className="fixed-textarea" readOnly>{review.review_body}</textarea></p>
-            <p>Review_id: {review.review_id}</p>
-            <p>Data di creazione: {new Date(review.created).toLocaleString()}</p>
+            <p><textarea className="fixed-textarea" readOnly defaultValue={review.review_object}></textarea></p>
+            <p><textarea className="fixed-textarea" readOnly defaultValue={review.review_body}></textarea></p>
+            <p>Review id: {review.review_id}</p>
+            <p>Mandato il {new Date(review.created).toLocaleString()}</p>
             {/* Se l'utente è moderatore può rimuovere la review */}
             {cookies.user?.is_mod ? (
               <input

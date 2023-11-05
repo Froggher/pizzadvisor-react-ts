@@ -46,8 +46,6 @@ export default function PlaceData({ place_id, more_details }: PlaceDataProps) {
         // Questo serve perché map si puó usare solo con gli array
         // values: Returns an array of values of the enumerable properties of an object
         const json_open_hours = parseCheck(data.det_place.opening_hours)
-        console.log(weather)
-        console.log();
         /* Return con piú dettagli del place */
         if (more_details) {
             return (
@@ -89,9 +87,6 @@ export default function PlaceData({ place_id, more_details }: PlaceDataProps) {
                             className="map-image" />
                         </div>
 
-                        <div className="map-container">
-                       
-                            </div>
                     </div>
                 
             )

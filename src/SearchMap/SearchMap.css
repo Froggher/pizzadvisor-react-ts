@@ -109,9 +109,7 @@ ul li:hover {
 
 
 
-/* PlaceData.css */
 
-/* Stile generale del componente PlaceData */
 .PlaceData {
   padding: 20px;
   background-color: #f5f5f5;
@@ -120,54 +118,49 @@ ul li:hover {
   margin: 10px 0;
 }
 
-/* Stile per il nome del posto */
+
 .PlaceData h1 {
   font-size: 24px;
   margin: 0;
 }
 
-/* Stile per l'indirizzo del posto */
+
 .PlaceData h2 {
   font-size: 16px;
   margin: 0;
   color: #888;
 }
 
-/* Stile per la fascia di prezzo */
 .PlaceData .price-level {
   font-weight: bold;
 }
 
-/* Stile per il numero di telefono */
 .PlaceData .phone-number {
   font-weight: bold;
 }
 
-/* Stile per il link al sito web */
+
 .PlaceData .website-link {
   color: #007bff;
   text-decoration: none;
 }
 
-/* Stile per l'orario di apertura */
 .PlaceData .opening-hours {
   margin-top: 10px;
 }
 
-/* Stile per il rating di Google */
+
 .PlaceData .google-rating {
   font-size: 20px;
   color: #f00;
   margin: 10px 0;
 }
 
-/* Stile per la temperatura corrente */
 .PlaceData .current-temperature {
   font-size: 18px;
   margin: 10px 0;
 }
 
-/* Stile per l'immagine statica della mappa */
 .PlaceData .map-image {
   max-width: 100%;
   height: auto;

@@ -2,13 +2,16 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { BackEnd, PostFun } from "../misc/Http";
 
 import { useCookies } from "react-cookie";
+import './user.css'
+
+
 export default function SignIn() {
 
     const queryClient = useQueryClient();
 
 
     /* Importo l'hook dei cookie */
-    const [, setCookie, removeCookie] = useCookies<'user', BackEnd>(["user"]);
+    const [, setCookie] = useCookies<'user', BackEnd>(["user"]);
 
     // Creiamo una costante data
     const currentDate = new Date();
@@ -52,11 +55,9 @@ export default function SignIn() {
 
 
     return (
-        <>
-            <form
-                //ref={formRef}
-                onSubmit={handleSubmit}
-            >
+        <div className="login-form">
+            <h1>Effettua il login</h1>
+            <form onSubmit={handleSubmit}>
                 <div>
                     <label>
                         Email:
@@ -78,11 +79,8 @@ export default function SignIn() {
                 {loginMutation.error instanceof Error && <h2>{loginMutation.error.message}</h2>}
                 <h2>{loginMutation.data?.message}</h2>
                 <h2>{loginMutation.data?.data}</h2>
-                {/* <h2>{Cookies.get('token')}</h2> */}
-                <div>
-                    <input type="submit" value="LogOut" onClick={() => removeCookie("user")} />
-                </div>
             </div>
-        </>
-    )
+        </div>
+    );
+
 }
