@@ -117,7 +117,7 @@ export default function SignUp() {
             </form>
             <div>
                 {loginMutation.isLoading && <h3>Caricamento risposta...</h3>}
-                {loginMutation.error instanceof Error && <div>An error occurred: {loginMutation.error.message} ErrorName: {loginMutation.error.name}</div>}
+                {loginMutation.error instanceof Error && <h2>{loginMutation.error.message}</h2>}
                 <h2>{loginMutation.data?.message}</h2>
                 <h2>{loginMutation.data?.data}</h2>
 

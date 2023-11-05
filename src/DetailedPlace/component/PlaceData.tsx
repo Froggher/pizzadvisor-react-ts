@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { BackEnd, GetFun, Weather, getWeatherData, latlng } from "../../misc/Http";
 import Follow from "./follow";
-
+import '../DetailedPlace.css'
 
 type PlaceDataProps = {
     place_id: string;
@@ -52,8 +52,9 @@ export default function PlaceData({ place_id, more_details }: PlaceDataProps) {
         if (more_details) {
             return (
 
-                <div>
+             
                     <div className="PlaceData">
+                        <div className="text-container">
                         <h1>{data.det_place.only_name}</h1>
                         <h2>{data.det_place.formatted_address}</h2>
 
@@ -80,16 +81,19 @@ export default function PlaceData({ place_id, more_details }: PlaceDataProps) {
                         )}
 
                         {data.det_place.google_rating ? <h3 className="google-rating">Rating di Google: {data.det_place.google_rating}</h3> : <h3>Rating di Google: non disponibile</h3>}
-
                         <Follow place_id={data.det_place.place_id} />
                         {weather ? <p className="current-temperature">{weather?.current.temperature_2m} Cº</p> : <p>⏳</p>}
-
-                        <img src={`https://maps.googleapis.com/maps/api/staticmap?center=${data.det_place.lat},${data.det_place.lng}
+                         <img src={`https://maps.googleapis.com/maps/api/staticmap?center=${data.det_place.lat},${data.det_place.lng}
                         &zoom=13&size=600x300&maptype=roadmap&markers=color:red%7Clabel:A%7C${data.det_place.lat},${data.det_place.lng}
                         &key=${import.meta.env.VITE_MAPS_API}`} alt="Mappa del luogo"
                             className="map-image" />
+                        </div>
+
+                        <div className="map-container">
+                       
+                            </div>
                     </div>
-                </div>
+                
             )
             /* Return con meno dettagli del place */
         } else {

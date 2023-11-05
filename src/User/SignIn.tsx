@@ -1,8 +1,12 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { BackEnd, PostFun } from "../misc/Http";
 
 import { useCookies } from "react-cookie";
 export default function SignIn() {
+
+    const queryClient = useQueryClient();
+
+
     /* Importo l'hook dei cookie */
     const [, setCookie, removeCookie] = useCookies<'user', BackEnd>(["user"]);
 
@@ -21,6 +25,7 @@ export default function SignIn() {
         mutationFn: (form) => PostFun('/login', form),
         onSuccess: (data) => {
             setCookie("user", data.user, { expires: currentDate });
+            queryClient.clear();
         }
     });
 
@@ -70,7 +75,7 @@ export default function SignIn() {
             </form>
             <div>
                 {loginMutation.isLoading && <h3>Caricamento risposta...</h3>}
-                {loginMutation.error instanceof Error && <div>An error occurred: {loginMutation.error.message} ErrorName: {loginMutation.error.name}</div>}
+                {loginMutation.error instanceof Error && <h2>{loginMutation.error.message}</h2>}
                 <h2>{loginMutation.data?.message}</h2>
                 <h2>{loginMutation.data?.data}</h2>
                 {/* <h2>{Cookies.get('token')}</h2> */}

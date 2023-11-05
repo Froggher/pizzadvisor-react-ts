@@ -32,9 +32,9 @@ export default function NavBar() {
           <div >
             <NavLink to="home">Home</NavLink>
             <NavLink to="map" >Map</NavLink>
-            <NavLink to="testdatabase">Testdata</NavLink>
+            {/* <NavLink to="testdatabase">Testdata</NavLink> */}
             <NavLink to="about">About</NavLink>
-            <NavLink to="signin">SignIn</NavLink>
+            {!cookies.user?.first_name && <NavLink to="signin">SignIn</NavLink>}
             <NavLink to="signup">SignUp</NavLink>
             {/* Questa opzione comparirá solamente se l'utente é autenticato */}
             <NavLink to="signout">{cookies.user?.first_name}</NavLink>

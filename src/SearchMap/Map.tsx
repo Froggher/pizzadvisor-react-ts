@@ -69,9 +69,6 @@ export default function Map({ position }: MapProps) {
                 {isLoading && <p>Caricamento luoghi in corso...</p>}
                 {isError && <p>Errore caricamento luoghi</p>}
 
-                <MyPosition setUserPosition={(position) => {
-                    mapRef.current?.panTo(position);
-                }}></MyPosition>
 
                 <h2>Ristoranti e pizzerie</h2>
                 <Places setRestaurant={(position) => {
@@ -80,8 +77,10 @@ export default function Map({ position }: MapProps) {
                     setActiveMarker(true);
                 }}
                     placeInfo={(a) => { setPlaceId(a) }}
-
                 ></Places>
+                <MyPosition setUserPosition={(position) => {
+                    mapRef.current?.panTo(position);
+                }}></MyPosition>
             </div>
 
             <div className="map">

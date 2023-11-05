@@ -2,6 +2,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { BackEnd, DeleteFun, GetFun } from "../../misc/Http";
 import { useCookies } from "react-cookie";
 
+import './review.css'
+
 type ViewReviewProps = {
   place_id: string;
 };
@@ -48,27 +50,31 @@ export default function ViewReview({ place_id }: ViewReviewProps) {
     // values: Returns an array of values of the enumerable properties of an object
     const reviews = Array.isArray(data.review) ? data.review : Object.values(data.review);
     return (
-      <div>
+      <div className="review-list">
         <h2>Recensioni:</h2>
         {reviews.map((review, index) => (
-          <div key={index}>
+          <div key={index} className="review-item">
             <h3>Recensione #{index + 1}</h3>
-            <p>Nome: {review.first_name}</p>
-            <p>Cognome: {review.last_name}</p>
-            <p>Oggetto: {review.review_object}</p>
-            <p>Corpo: {review.review_body}</p>
+            <p>{review.first_name} {review.last_name}</p>
+            <p><textarea className="fixed-textarea" readOnly>{review.review_object}</textarea></p>
+            <p><textarea className="fixed-textarea" readOnly>{review.review_body}</textarea></p>
             <p>Review_id: {review.review_id}</p>
             <p>Data di creazione: {new Date(review.created).toLocaleString()}</p>
-           {/* Se l'utente é moderatore puó rimuovere la review */}
-           {cookies.user?.is_mod ?
-              <input type="submit" value="Rimuovi recensione" 
-              onClick={(e) => handleDeleteReview(review.review_id, e)} disabled={deleteReviewMutation.isLoading}/> : null}
+            {/* Se l'utente è moderatore può rimuovere la review */}
+            {cookies.user?.is_mod ? (
+              <input
+                type="submit"
+                value="Rimuovi recensione"
+                onClick={(e) => handleDeleteReview(review.review_id, e)}
+                disabled={deleteReviewMutation.isLoading}
+                className="delete-button"
+              />
+            ) : null}
             {(deleteReviewMutation.error) instanceof Error && <p>{deleteReviewMutation.error.message}</p>}
           </div>
         ))}
       </div>
     );
-  }
-
+            }
   return <div>Nessuna recensione trovata per questo posto.</div>;
 }

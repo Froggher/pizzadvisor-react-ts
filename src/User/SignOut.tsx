@@ -1,8 +1,13 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { useCookies } from "react-cookie";
 import { Link } from "react-router-dom";
 
 
 export default function SignOut() {
+
+    const queryClient = useQueryClient();
+
+
     /* Chiamao l'hook dei cookies */
     const [cookies, , removeCookie] = useCookies(["user"]);
     
@@ -11,7 +16,7 @@ export default function SignOut() {
         return (
             <>
                 <h2>Vuoi effettuare il Logout {cookies.user.first_name}?</h2>
-                <input type="submit" value="LogOut" onClick={() => removeCookie("user")} />
+                <input type="submit" value="LogOut" onClick={() => {removeCookie("user"); queryClient.clear();}} />
             </>
         )
     /* Se l'utente non é autenticato visulizzerá questi contenuti */

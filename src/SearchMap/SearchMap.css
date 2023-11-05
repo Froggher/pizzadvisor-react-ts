@@ -46,15 +46,8 @@ a {
   font-weight: bold;
 }
 
-.combobox-input {
-  width: 100%;
-  padding: 0.5rem;
-}
 
 
-
-
-/* Stile per il campo di input */
 .combobox-input {
   width: 100%;
   padding: 8px;
@@ -64,13 +57,12 @@ a {
   margin-bottom: 10px;
 }
 
-/* Stile per la lista dei suggerimenti */
+
 ul {
   list-style: none;
   padding: 0;
 }
 
-/* Stile per i suggerimenti */
 ul li {
   padding: 5px;
   border: 1px solid #ccc;
@@ -82,14 +74,13 @@ ul li {
   transition: background-color 0.3s;
 }
 
-/* Stile per i suggerimenti al passaggio del mouse */
+
 ul li:hover {
   background-color: #ddd;
 }
 
 
 
-/* CSS */
 .link-detail {
   display: block;
   background-color: #007bff;

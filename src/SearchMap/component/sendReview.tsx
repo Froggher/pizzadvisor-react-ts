@@ -52,33 +52,45 @@ export default function SendReview({ place_id }: SendReviewProps) {
   }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Oggetto
+    <div className="review-form">
+      {cookies.user ? (
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label className="review-label">Oggetto</label>
             <textarea
+              className="review-textarea"
               name="review_object"
               placeholder="Oggetto..."
               maxLength={64}
               rows={1}
               required={true}
             />
-          </label>
-        </div>
-        <div>
-          <label>Corpo{place_id}
-            <textarea id="bodyTextArea"
+          </div>
+          <div>
+            <label className="review-label">Corpo</label>
+            <textarea
+              className="review-textarea"
               name="review_body"
               placeholder="Messaggio..."
               rows={9}
               required={true}
             />
-          </label>
-        </div>
+          </div>
+          <div>
+            <input
+              type="submit"
+              value="Invia recensione"
+              disabled={sendReviewMutation.isLoading}
+              className="submit-button"
+            />
+          </div>
+        </form>
+      ) : (
         <div>
-          <input type="submit" value="Invia recensione" disabled={sendReviewMutation.isLoading} />
+          <h3>Login necessario...</h3>
+          <Link to="/signin">Effettua il login.</Link>
         </div>
-      </form>
+      )}
     </div>
   );
 };

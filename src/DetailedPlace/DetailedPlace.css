@@ -1,0 +1,81 @@
+.PlaceData {
+    display: flex;
+    flex-direction: column; /* Imposta il flex-direction su "column" per allineare gli elementi verticalmente */
+    align-items: flex-start; /* Allinea gli elementi a sinistra */
+    text-align: left; /* Imposta il testo a sinistra */
+  }
+
+  .text-container {
+    width: 100%;
+
+  }
+
+
+  h1 {
+    font-size: 24px;
+    margin: 10px 0;
+  }
+  h1 {
+    font-size: 24px;
+    margin: 10px 0;
+  }
+ 
+  .price-level {
+    font-size: 16px;
+    margin: 5px 0;
+  }
+  
+  /* Stile per il numero di telefono */
+  .phone-number {
+    font-size: 16px;
+    margin: 5px 0;
+  }
+  
+  /* Stile per il link al sito web */
+  .website-link {
+    font-size: 16px;
+    text-decoration: none;
+    color: #007bff;
+    margin: 5px 0;
+  }
+  
+  /* Stili per l'orario di apertura */
+  .opening-hours {
+    font-size: 16px;
+    margin: 5px 0;
+  }
+  
+  .opening-hours ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .opening-hours li {
+    font-size: 16px;
+    margin: 5px 0;
+  }
+  
+  /* Stile per il rating di Google */
+  .google-rating {
+    font-size: 16px;
+    margin: 5px 0;
+  }
+  
+  /* Stile per la temperatura attuale */
+  .current-temperature {
+    font-size: 16px;
+    margin: 5px 0;
+  }
+  
+  .map-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+
+  .map-image {
+    max-width: 100%;
+    max-height: 300px; /* Imposta l'altezza massima desiderata per la mappa */
+    margin: 10px 0;
+  }

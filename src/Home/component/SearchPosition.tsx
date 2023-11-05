@@ -1,6 +1,6 @@
 import usePlacesAutocomplete, { getGeocode, getLatLng } from "use-places-autocomplete";
 import { useState } from 'react';
-//import Combobox from "react-widgets/Combobox";
+import '../Home.css'
 
 
 type PlacesProps = {
@@ -39,34 +39,35 @@ export default function SearchPosition({ setPosition }: PlacesProps) {
 
 
     return (
-        /* Qui é necessario cambiare la libreria per questo combobox */
-        <div>
-
-            <input
-                type="text"
-                disabled={!ready}
-                placeholder="Inserisci indirizzo"
-                value={value}
-                onChange={(e) => {setValue(e.target.value);
-                setIsSelected(false);}}
-            />
-            {!isSelected &&
-            <ul>
-                {
-                    data.map(e => (
-                        <li
-                            key={e.place_id}
-                            onClick={() => handleSelect(e.description)}
-                        >
-                            {e.description}
-                        </li>
-                    ))
-                }
+        <div className="input-container">
+          <input
+            type="text"
+            disabled={!ready}
+            placeholder="Inserisci indirizzo"
+            value={value}
+            onChange={(e) => {
+              setValue(e.target.value);
+              setIsSelected(false);
+            }}
+            className="input-text"
+          />
+          {!isSelected && (
+            <ul className="suggestion-list">
+              {data.map((e) => (
+                <li
+                  key={e.place_id}
+                  onClick={() => handleSelect(e.description)}
+                  className="suggestion-item"
+                >
+                  {e.description}
+                </li>
+              ))}
             </ul>
-            }
+          )}
         </div>
-    )
+      );
+    };
 
 
-}
+
 
