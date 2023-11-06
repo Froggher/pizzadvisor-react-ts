@@ -81,7 +81,7 @@ export default function Places({ setRestaurant, placeInfo }: PlacesProps) {
 
 
     return (
-        /* Qui é necessario cambiare la libreria per questo combobox */
+
         <div>
 
             <input

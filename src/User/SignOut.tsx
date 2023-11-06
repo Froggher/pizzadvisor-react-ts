@@ -16,7 +16,7 @@ export default function SignOut() {
         return (
             <>
                 <h2>Vuoi effettuare il Logout {cookies.user.first_name}?</h2>
-                <input type="submit" value="LogOut" onClick={() => {removeCookie("user"); queryClient.clear();}} />
+                <input type="submit" value="LogOut" onClick={() => {window.location.reload(); removeCookie("user"); queryClient.clear();}} />
             </>
         )
     /* Se l'utente non é autenticato visulizzerá questi contenuti */

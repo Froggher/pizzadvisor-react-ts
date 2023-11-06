@@ -7,7 +7,7 @@ import MyPosition from "./component/MyPosition";
 import { useQuery } from "@tanstack/react-query";
 import { BackEnd, GetFun } from "../misc/Http";
 import { Link } from "react-router-dom";
-import PlaceData from "../DetailedPlace/component/PlaceData";
+import ViewPlaceDetails from "../DetailedPlace/component/ViewPlaceDetails";
 
 import './SearchMap.css';
 
@@ -93,7 +93,7 @@ export default function Map({ position }: MapProps) {
                     clickableIcons={false}
                 >
                     {placePosition &&
-                    // Qui viene descritto quello che succede quando si seleziona cliccando un marker 
+                        // Qui viene descritto quello che succede quando si seleziona cliccando un marker 
                         <>
                             <MarkerF position={placePosition} visible={true} onClick={() => setActiveMarker(true)}>
                                 {/* Serve per chiudere e riaprire la schermata di InfoWindowF */}
@@ -101,7 +101,7 @@ export default function Map({ position }: MapProps) {
                                     <InfoWindowF position={placePosition} options={{ maxWidth: 320 }} onCloseClick={() => { setActiveMarker(false); setPlacePosition(undefined) }}>
                                         {placeId ?
                                             <div>
-                                                <PlaceData place_id={placeId} />
+                                                <ViewPlaceDetails place_id={placeId} />
                                                 <Link to={`/detailedplace/${placeId}`} className="link-detail">Ulteriori dettagli</Link>
                                             </div> : null}
                                     </InfoWindowF>
@@ -114,7 +114,7 @@ export default function Map({ position }: MapProps) {
                     {/* Qui i marker vengono disposti sulla mappa tramite un map */}
                     {((isSuccess && Array.isArray(data.place)) && data.place) &&
                         data.place.map((place: any, index: number) => (
-                            <MarkerF key={index} position={{ lat: place.lat, lng: place.lng }} visible={true} 
+                            <MarkerF key={index} position={{ lat: place.lat, lng: place.lng }} visible={true}
                                 onClick={() => { setActiveMarker(true); setPlacePosition({ lat: place.lat, lng: place.lng }); setPlaceId(place.place_id); }} />
 
                         ))}

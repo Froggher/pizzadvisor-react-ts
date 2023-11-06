@@ -1,15 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 import { BackEnd, GetFun, Weather, getWeatherData, latlng } from "../../misc/Http";
-import Follow from "./follow";
+import Follow from "./Follow";
 import '../DetailedPlace.css'
 
-type PlaceDataProps = {
+type ViewPlaceProps = {
     place_id: string;
     more_details?: boolean;
 };
 
 
-export default function PlaceData({ place_id, more_details }: PlaceDataProps) {
+export default function ViewPlaceDetails({ place_id, more_details }: ViewPlaceProps) {
 
 
     let cost: Array<string> = ["super-economico", 'economico', "moderato", "costoso", "molto costoso"];
@@ -55,7 +55,7 @@ export default function PlaceData({ place_id, more_details }: PlaceDataProps) {
                         <div className="text-container">
                         <h1>{data.det_place.only_name}</h1>
                         <h2>{data.det_place.formatted_address}</h2>
-
+                        <p>Aggiornata al {new Date(data.det_place.updated_at).toLocaleString()}</p>
                         {data.det_place.price_level ? <p className="price-level">Fascia di prezzo: {cost[data.det_place.price_level]}</p> : <p>Fascia di prezzo: non disponibile</p>}
 
                         {data.det_place.formatted_phone_number ? <p className="phone-number">Numero di telefono: {data.det_place.formatted_phone_number}</p> :

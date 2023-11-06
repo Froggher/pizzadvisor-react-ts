@@ -43,6 +43,7 @@ export interface BackEnd {
         website: string,
         price_level: number,
         google_rating: number,
+        updated_at: Date,
     }
     
 }
@@ -113,6 +114,37 @@ export async function PostFun(url: string, body: object, token?: string) {
     }
     return await response.json();
 }
+
+
+
+
+/* Funzione per effettuare update/patch */
+export async function PostPatch(url: string, body: object, token?: string) {
+    if (typeof (token) === 'undefined') {
+        token = 'not provided'
+    }
+    const host = "http://localhost:5445"
+    const response = await fetch(host.concat(url),
+        {
+            method: 'PATCH',
+            headers:
+            {
+                'Origin': 'http://localhost:5173',
+                'Content-Type': 'application/json',
+                'token': token
+            },
+            body: JSON.stringify(body),
+        }
+    );
+    if (response.status <= 199 || response.status >= 300) {
+        /* In caso di errore verrà mostrato quello che mandato express */
+        const resJson = await response.json();
+        console.log(resJson);
+        throw new Error(resJson.message);
+    }
+    return await response.json();
+}
+
 
 
 /* Funzione Delete */

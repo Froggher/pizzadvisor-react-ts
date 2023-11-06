@@ -3,7 +3,7 @@ import { useState } from "react"
 import { useCookies } from "react-cookie";
 import { Link } from "react-router-dom";
 import { BackEnd, GetFun } from "../misc/Http";
-import Follow from "../DetailedPlace/component/follow";
+import Follow from "../DetailedPlace/component/Follow";
 import SearchPosition from "./component/SearchPosition";
 import './Home.css'
 

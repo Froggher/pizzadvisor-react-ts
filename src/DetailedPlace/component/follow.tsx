@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 
 type FollowProps = {
     place_id: string;
-    more_details?: boolean;
 };
 
 
