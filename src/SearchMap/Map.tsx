@@ -2,6 +2,7 @@ import { useMemo, useRef, useCallback, useState } from "react";
 import { GoogleMap, InfoWindowF, MarkerF } from "@react-google-maps/api";
 
 import "./SearchMap.css";
+//import Places from "./component/Places";
 import Places from "./component/Places";
 import MyPosition from "./component/MyPosition";
 import { useQuery } from "@tanstack/react-query";
