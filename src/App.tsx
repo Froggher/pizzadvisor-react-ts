@@ -18,6 +18,7 @@ const libraries: Libraries = ['places']
 /* Qui vengono subito caricati i dati dell'api per la gestione delle mappe e autocomplete */
 function App() {
   const { isLoaded } = useLoadScript({
+    // Inserire qua API di google maps
     googleMapsApiKey: import.meta.env.VITE_MAPS_API,
     libraries: libraries,
     //language: "IT",

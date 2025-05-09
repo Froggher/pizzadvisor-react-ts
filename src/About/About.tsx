@@ -12,7 +12,7 @@ export default function About() {
             <h3>Vite</h3>
             <a href="https://vitejs.dev/">Vite Docs</a>
             <h3>Google maps</h3>
-            <a href="https://console.cloud.google.com/google/maps-apis/overview?project=pizzadvisor-400301">Console api Google</a><br/>
+            <a href="https://console.cloud.google.com/projectselector2/google/maps-apis/home?project=_&pli=1&inv=1&invt=Abw7rA&supportedpurview=project">Console api Google</a><br/>
             <a href="https://tomchentw.github.io/react-google-maps/">Libreria per le api di Google</a><br/>
         </>
     )
