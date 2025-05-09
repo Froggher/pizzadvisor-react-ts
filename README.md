@@ -12,6 +12,9 @@ Sviluppato con React TypeScript (VITE)
 ![login_PizzAdvisor](public/login_pizzAdvisor.png)
 - Schermata di login
 
+## Link al Back-End
+- https://github.com/Froggher/pizzadvisor-node-express
+
 ## Utilities e documentazione
 ### Metodo per aggiornare navBar
 - https://stackoverflow.com/questions/56192101/react-refresh-component-on-login
